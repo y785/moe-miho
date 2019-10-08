@@ -28,6 +28,7 @@ import moe.maple.miho.rect.Rect;
 import moe.maple.miho.space.quad.MoeFootholdQuadTree;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public interface PhysicalSpace2D extends Iterable<Foothold> {
     Point high();
@@ -47,6 +48,8 @@ public interface PhysicalSpace2D extends Iterable<Foothold> {
     default Foothold getFootholdUnderneath(Point point) {
         return getFootholdUnderneath(point.x(), point.y());
     }
+
+    Foothold getFootholdUnderneath(int x, int y, Supplier<Foothold> fallback);
 
     Foothold getFootholdClosest(int x, int y, int pcx, int pcy, int ptHitx);
 

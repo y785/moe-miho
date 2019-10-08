@@ -22,8 +22,11 @@
 
 package moe.maple.miho.space;
 
+import moe.maple.miho.foothold.Foothold;
 import moe.maple.miho.point.Point;
 import moe.maple.miho.rect.Rect;
+
+import java.util.function.Supplier;
 
 public abstract class AbstractPhysicalSpace2D implements PhysicalSpace2D {
 
@@ -75,5 +78,12 @@ public abstract class AbstractPhysicalSpace2D implements PhysicalSpace2D {
     @Override
     public boolean isInBounds(int x, int y) {
         return bounds.contains(x, y);
+    }
+
+    @Override
+    public Foothold getFootholdUnderneath(int x, int y, Supplier<Foothold> fallback) {
+        var res = getFootholdUnderneath(x, y);
+        if (res == null) res = fallback.get();
+        return res;
     }
 }
