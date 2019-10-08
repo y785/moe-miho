@@ -42,11 +42,6 @@ public class MoeBstNode extends AbstractBstNode<Foothold> {
     }
 
     @Override
-    public Foothold[] data() {
-        return data.toArray(Foothold[]::new);
-    }
-
-    @Override
     public synchronized void insert(Foothold fh) {
         if (rect == null || data == null || data.size() == 0) {
             if (data == null) data = new ArrayList<>();

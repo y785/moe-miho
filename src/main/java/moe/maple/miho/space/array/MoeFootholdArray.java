@@ -24,52 +24,13 @@ package moe.maple.miho.space.array;
 
 import moe.maple.miho.foothold.Foothold;
 import moe.maple.miho.point.Point;
-import moe.maple.miho.rect.Rect;
 import moe.maple.miho.space.AbstractPhysicalSpace2D;
-
-import java.util.Iterator;
-import java.util.List;
 
 /* that awkward baseline */
 public class MoeFootholdArray extends AbstractPhysicalSpace2D {
 
-    private final Foothold[] footholds;
-
     public MoeFootholdArray(Point low, Point high, Foothold[] footholds) {
-        super(low, high);
-        this.footholds = footholds;
+        super(low, high, new ArrayTree(low, high, footholds));
     }
 
-    @Override
-    public Foothold getFootholdUnderneath(int x, int y) {
-        var result = (Foothold) null;
-
-        for (int i = 0; i < footholds.length; i++) {
-            var fh = footholds[i];
-            if (!fh.isWall() && fh.below(x, y) && (result == null || result.compareY(fh) == 1)) {
-                result = fh;
-            }
-        }
-        return result;
-    }
-
-    @Override
-    public Foothold getFootholdClosest(int x, int y, int pcx, int pcy, int ptHitx) {
-        return null;
-    }
-
-    @Override
-    public Foothold getFootholdRandom(Rect rect) {
-        return null;
-    }
-
-    @Override
-    public List<Foothold> getFootholdRandom(Rect rect, int max) {
-        return null;
-    }
-
-    @Override
-    public Iterator<Foothold> iterator() {
-        return null;
-    }
 }

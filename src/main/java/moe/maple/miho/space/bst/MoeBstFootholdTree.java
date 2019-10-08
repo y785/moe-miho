@@ -24,50 +24,12 @@ package moe.maple.miho.space.bst;
 
 import moe.maple.miho.foothold.Foothold;
 import moe.maple.miho.point.Point;
-import moe.maple.miho.rect.Rect;
 import moe.maple.miho.space.AbstractPhysicalSpace2D;
-import moe.maple.miho.tree.Result;
-
-import java.util.Iterator;
-import java.util.List;
 
 public class MoeBstFootholdTree extends AbstractPhysicalSpace2D {
 
-    private MoeBstRoot root;
-
     public MoeBstFootholdTree(Point low, Point high, Foothold[] footholds) {
-        super(low, high);
-        this.root = new MoeBstRoot(low, high);
-        for (var fh : footholds) root.insert(fh);
-    }
-
-    @Override
-    public Foothold getFootholdUnderneath(int x, int y) {
-        var result = Result.of((Foothold) null);
-        root.searchDown(match -> {
-            if (!match.isWall() && match.below(x, y))
-                result.setIf(res -> res.compareY(match) == 1, match);
-        }, x, y, 0);
-        return result.get();
-    }
-
-    @Override
-    public Foothold getFootholdClosest(int x, int y, int pcx, int pcy, int ptHitx) {
-        return null;
-    }
-
-    @Override
-    public Foothold getFootholdRandom(Rect rect) {
-        return null;
-    }
-
-    @Override
-    public List<Foothold> getFootholdRandom(Rect rect, int max) {
-        return null;
-    }
-
-    @Override
-    public Iterator<Foothold> iterator() {
-        return null;
+        super(low, high, new MoeBstRoot(low, high));
+        root.insert(footholds);
     }
 }

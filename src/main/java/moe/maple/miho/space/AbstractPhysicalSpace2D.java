@@ -22,17 +22,25 @@
 
 package moe.maple.miho.space;
 
+import moe.maple.miho.foothold.Foothold;
 import moe.maple.miho.point.Point;
 import moe.maple.miho.rect.Rect;
+import moe.maple.miho.tree.Result;
+import moe.maple.miho.tree.Tree;
+
+import java.util.Iterator;
+import java.util.List;
 
 public abstract class AbstractPhysicalSpace2D implements PhysicalSpace2D {
 
     // todo move this out, it's largely provided from the trees themselves.
-    private final Point low, high, center;
-    private final int width, height;
-    private final Rect bounds;
+    protected final Point low, high, center;
+    protected final int width, height;
+    protected final Rect bounds;
 
-    protected AbstractPhysicalSpace2D(Point low, Point high) {
+    protected final Tree<Foothold> root;
+
+    protected AbstractPhysicalSpace2D(Point low, Point high, Tree<Foothold> root) {
         this.low = low;
         this.high = high;
 
@@ -41,6 +49,8 @@ public abstract class AbstractPhysicalSpace2D implements PhysicalSpace2D {
 
         this.bounds = Rect.of(low.x() + height, low.y() + height, width, height);
         this.center = Point.ofCenter(bounds);
+
+        this.root = root;
     }
 
     @Override
@@ -121,5 +131,37 @@ public abstract class AbstractPhysicalSpace2D implements PhysicalSpace2D {
     @Override
     public boolean isInBounds(int x, int y) {
         return bounds.contains(x, y);
+    }
+
+    @Override
+    public Foothold getFootholdUnderneath(int x, int y) {
+        var result = Result.of((Foothold) null);
+
+        root.searchDown(match -> {
+            if (!match.isWall() && match.below(x, y))
+                result.setIf(res -> res.compareY(match) == 1, match);
+        }, x, y, 150);
+
+        return result.get();
+    }
+
+    @Override
+    public Foothold getFootholdClosest(int x, int y, int pcx, int pcy, int ptHitx) {
+        return null;
+    }
+
+    @Override
+    public Foothold getFootholdRandom(Rect rect) {
+        return null;
+    }
+
+    @Override
+    public List<Foothold> getFootholdRandom(Rect rect, int max) {
+        return null;
+    }
+
+    @Override
+    public Iterator<Foothold> iterator() {
+        return root.stream().iterator();
     }
 }

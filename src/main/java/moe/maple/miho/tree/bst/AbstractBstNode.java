@@ -27,6 +27,7 @@ import moe.maple.miho.rect.MutableRect;
 import moe.maple.miho.rect.Rect;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -53,7 +54,9 @@ public abstract class AbstractBstNode<T extends Foothold> implements BstNode<T> 
     }
 
     @Override
-    public abstract T[] data();
+    public Collection<T> data() {
+        return data;
+    }
 
     @Override
     public int level() {
@@ -90,13 +93,22 @@ public abstract class AbstractBstNode<T extends Foothold> implements BstNode<T> 
     }
 
     @Override
-    public Stream<BstNode<T>> stream() {
+    public Stream<BstNode<T>> streamNodes() {
         if (left == null && right == null)
             return Stream.of(this);
         if (left == null)
-            return Stream.concat(Stream.of(this), Stream.of(right).flatMap(BstNode::stream));
+            return Stream.concat(Stream.of(this), Stream.of(right).flatMap(BstNode::streamNodes));
         return Stream.concat(Stream.of(this), Stream.of(left, right)
                 .filter(Objects::nonNull)
-                .flatMap(BstNode::stream));
+                .flatMap(BstNode::streamNodes));
+    }
+
+    @Override
+    public Stream<T> stream() {
+        if (left == null && right == null)
+            return data.stream();
+        if (left == null)
+            return Stream.concat(data.stream(), right.stream());
+        return Stream.concat(Stream.concat(data.stream(), left.stream()), right.stream());
     }
 }

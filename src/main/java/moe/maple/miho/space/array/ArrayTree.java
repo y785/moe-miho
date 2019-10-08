@@ -20,33 +20,37 @@
  * SOFTWARE.
  */
 
-package moe.maple.miho.tree.bst;
+package moe.maple.miho.space.array;
 
 import moe.maple.miho.foothold.Foothold;
-import moe.maple.miho.rect.Rect;
+import moe.maple.miho.point.Point;
 import moe.maple.miho.tree.Tree;
 
-import java.util.Collection;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public interface BstNode<T extends Foothold> extends Tree<T> {
-    Rect bounds();
+public class ArrayTree implements Tree<Foothold> {
 
-    Collection<T> data();
+    private final Foothold[] data;
 
-    int level();
+    public ArrayTree(Point low, Point high, Foothold[] footholds) {
+        this.data = footholds;
+    }
 
-    void left(BstNode<T> left);
+    @Override
+    public void insert(Foothold object) {
+        throw new UnsupportedOperationException("Nope.");
+    }
 
-    void right(BstNode<T> right);
+    @Override
+    public void searchDown(Consumer<Foothold> check, int x, int y, int radius) {
+        for (Foothold datum : data) {
+            check.accept(datum);
+        }
+    }
 
-    BstNode<T> left();
-
-    BstNode<T> right();
-
-    void search(Consumer<T> check, Predicate<BstNode<T>> pathCheck, int x, int y);
-
-    Stream<BstNode<T>> streamNodes();
+    @Override
+    public Stream<Foothold> stream() {
+        return Stream.of(data);
+    }
 }

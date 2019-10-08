@@ -53,6 +53,4 @@ public interface QuadTree<T> extends Tree<T> {
     void searchDown(Consumer<T> check, int x, int y, int radius);
 
     Stream<QuadTree<T>> streamQuads();
-
-    Stream<T> stream();
 }

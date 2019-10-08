@@ -7,8 +7,6 @@ import moe.maple.miho.space.PhysicalSpace2D;
 import moe.maple.miho.space.bst.MoeBstFootholdTree;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class PhysicalSpaceTests {
 
@@ -69,7 +67,6 @@ public class PhysicalSpaceTests {
 
     @Test
     public void testSlopes() {
-        // Right of Dimensional Mirror
         fhCheck(quadtree, Point.of(1064, 186 - 90), 979);
         fhCheck(quadtree, Point.of(583, 144 - 90), 190);
         fhCheck(quadtree, Point.of(-344, -84 - 90), 123);

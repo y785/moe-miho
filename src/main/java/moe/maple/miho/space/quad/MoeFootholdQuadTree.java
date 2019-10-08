@@ -24,55 +24,12 @@ package moe.maple.miho.space.quad;
 
 import moe.maple.miho.foothold.Foothold;
 import moe.maple.miho.point.Point;
-import moe.maple.miho.rect.Rect;
 import moe.maple.miho.space.AbstractPhysicalSpace2D;
-import moe.maple.miho.tree.Result;
-
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class MoeFootholdQuadTree extends AbstractPhysicalSpace2D {
 
-    public final MoeQuad root;
-
     public MoeFootholdQuadTree(Point low, Point high, Foothold[] footholds) {
-        super(low, high);
-        this.root = new MoeQuad(0, low, high);
-        for (var foothold : footholds) {
-            this.root.insert(foothold);
-        }
-    }
-
-    @Override
-    public Foothold getFootholdUnderneath(int x, int y) {
-        var result = Result.of((Foothold) null);
-
-        root.searchDown(match -> {
-            if (!match.isWall() && match.below(x, y))
-                result.setIf(res -> res.compareY(match) == 1, match);
-        }, x, y, 150);
-
-        return result.get();
-    }
-
-    @Override
-    public Foothold getFootholdClosest(int x, int y, int pcx, int pcy, int ptHitx) {
-        return null;
-    }
-
-    @Override
-    public Foothold getFootholdRandom(Rect rect) {
-        return null;
-    }
-
-    @Override
-    public List<Foothold> getFootholdRandom(Rect rect, int max) {
-        return null;
-    }
-
-    @Override
-    public Iterator<Foothold> iterator() {
-        return root.stream().collect(Collectors.toList()).iterator(); // ew
+        super(low, high, new MoeQuad(0, low, high));
+        this.root.insert(footholds);
     }
 }

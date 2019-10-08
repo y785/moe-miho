@@ -22,11 +22,23 @@
 
 package moe.maple.miho.tree;
 
+import java.util.Collection;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 public interface Tree<T> {
 
     void insert(T object);
 
+    default void insert(T... objects) {
+        for (var obj : objects) insert(obj);
+    }
+
+    default void insert(Collection<T> objects) {
+        objects.forEach(this::insert);
+    }
+
     void searchDown(Consumer<T> check, int x, int y, int radius);
+
+    Stream<T> stream();
 }
