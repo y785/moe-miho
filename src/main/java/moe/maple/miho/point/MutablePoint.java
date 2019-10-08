@@ -82,4 +82,8 @@ public interface MutablePoint extends Point {
     static MutablePoint of(int x, int y) {
         return new MoePoint(x, y);
     }
+
+    static MutablePoint of(long joined) {
+        return of(Point.x(joined), Point.y(joined));
+    }
 }

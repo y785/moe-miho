@@ -22,6 +22,7 @@
 
 package moe.maple.miho.line;
 
+import moe.maple.miho.point.MutablePoint;
 import moe.maple.miho.point.Point;
 import moe.maple.miho.point.PointConsumer;
 import moe.maple.miho.rect.Rect;
@@ -79,6 +80,10 @@ public interface Line {
         return Point.of(closest(point));
     }
 
+    default MutablePoint closestP(MutablePoint point) {
+        return MutablePoint.of(closest(point));
+    }
+
     int compareX(int x);
 
     default int compareX(Point o) {
@@ -134,7 +139,6 @@ public interface Line {
         if (y1 < y && y2 < y) return 1;
         return 0;
     }
-
 
     static void plot(int x1, int y1, int x2, int y2, PointConsumer action) {
         var dx = x2 - x1;

@@ -40,22 +40,20 @@ public class Spaces {
         var max = Math.max(y1, y2);
         return ThreadLocalRandom.current().nextInt(min, max);
     }
-
-    static long explosion(PhysicalSpace2D space, int fromX, int fromY, int gapi, int gap) {
+    
+    public static long explosion(PhysicalSpace2D space, int fromX, int fromY, int iter, int spacing) {
         var low = space.low();
         var high = space.high();
 
-        var x = ((gapi % 2 == 0) ? fromX - (gap * gapi) : fromX + (gap * gapi));
-        var y = fromY;
+        var left = iter % 2 == 0;
+        var x = left ?
+                fromX - (spacing * iter) :
+                fromX + (spacing * iter);
 
-        if (x >= high.x())
-            x = randomX(x, high.x() - 50);
-        if (x <= low.x())
-            x = randomX(low.x() + 50, fromX);
-        y = randomY(y - 90, y);
+        if (x > high.x() || x < low.x()) x = randomX(x, fromX);
 
-        var fh = space.getFootholdUnderneath(x, y, () -> space.getFootholdUnderneath(fromX, fromY));
+        var fh = space.getFootholdUnderneath(x, fromY, () -> space.getFootholdUnderneath(fromX, fromY));
         if (fh == null) return Point.joined(fromX, fromY);
-        return fh.closest(x, y);
+        return fh.closest(x, fromY);
     }
 }

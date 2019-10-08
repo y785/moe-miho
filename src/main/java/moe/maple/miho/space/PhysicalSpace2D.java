@@ -63,7 +63,17 @@ public interface PhysicalSpace2D extends Iterable<Foothold> {
         return getFootholdUnderneath(point.x(), point.y());
     }
 
-    Foothold getFootholdUnderneath(int x, int y, Supplier<Foothold> fallback);
+    default Foothold getFootholdUnderneath(int x, int y, Supplier<Foothold> fallback) {
+        var res = getFootholdUnderneath(x, y);
+        if (res == null) return fallback.get();
+        return res;
+    }
+
+    default Foothold getFootholdUnderneath(Point point, Supplier<Foothold> fallback) {
+        var res = getFootholdUnderneath(point);
+        if (res == null) return fallback.get();
+        return res;
+    }
 
     Foothold getFootholdClosest(int x, int y, int pcx, int pcy, int ptHitx);
 
