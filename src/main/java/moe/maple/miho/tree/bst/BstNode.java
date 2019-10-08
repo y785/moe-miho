@@ -24,12 +24,13 @@ package moe.maple.miho.tree.bst;
 
 import moe.maple.miho.foothold.Foothold;
 import moe.maple.miho.rect.Rect;
+import moe.maple.miho.tree.Tree;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public interface BstNode<T extends Foothold> {
+public interface BstNode<T extends Foothold> extends Tree<T> {
     Rect bounds();
 
     T[] data();
@@ -44,11 +45,7 @@ public interface BstNode<T extends Foothold> {
 
     BstNode<T> right();
 
-    void insert(T data);
-
     void search(Consumer<T> check, Predicate<BstNode<T>> pathCheck, int x, int y);
-
-    void searchDown(Consumer<T> check, int x, int y);
 
     Stream<BstNode<T>> stream();
 }

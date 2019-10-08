@@ -23,11 +23,12 @@
 package moe.maple.miho.tree.quad;
 
 import moe.maple.miho.point.Point;
+import moe.maple.miho.tree.Tree;
 
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-public interface QuadTree<T> extends Iterable<T> {
+public interface QuadTree<T> extends Tree<T> {
     int QUAD_NW = 0;
     int QUAD_NE = 1;
     int QUAD_SW = 2;

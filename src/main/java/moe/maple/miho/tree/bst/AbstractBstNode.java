@@ -83,9 +83,9 @@ public abstract class AbstractBstNode<T extends Foothold> implements BstNode<T> 
     @Override
     public void search(Consumer<T> check, Predicate<BstNode<T>> pathCheck, int x, int y) {
         if (left != null && pathCheck.test(left))
-            left.searchDown(check, x, y);
+            left.search(check, pathCheck, x, y);
         if (right != null && pathCheck.test(right))
-            right.searchDown(check, x, y);
+            right.search(check, pathCheck, x, y);
         data.forEach(check);
     }
 

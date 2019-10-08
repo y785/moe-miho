@@ -4,8 +4,8 @@ import moe.maple.miho.foothold.Foothold;
 import moe.maple.miho.point.Point;
 
 public final class Ellinia {
-    public static final Point LOW = Point.of(-1224, -4185);
-    public static final Point HIGH = Point.of(1540, 364);
+    public static final Point BAD_LOW = Point.of(-1224, -4185);
+    public static final Point BAD_HIGH = Point.of(1540, 364);
     public static final Foothold[] FOOTHOLDS = new Foothold[] {
         Foothold.of(1, 1, 0, 81, 2, -953, 299, -900, 300),
         Foothold.of(2, 1, 0, 1, 3, -900, 300, -863, 293),

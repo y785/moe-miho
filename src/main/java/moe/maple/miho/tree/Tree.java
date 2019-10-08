@@ -20,36 +20,13 @@
  * SOFTWARE.
  */
 
-package moe.maple.miho.space.bst;
-
-import moe.maple.miho.foothold.Foothold;
-import moe.maple.miho.point.Point;
-import moe.maple.miho.rect.MutableRect;
+package moe.maple.miho.tree;
 
 import java.util.function.Consumer;
 
-public class MoeBstRoot extends MoeBstNode {
+public interface Tree<T> {
 
-    private MoeBstRoot(MutableRect rect) {
-        super(null);
-        this.rect = rect;
-        this.bounds = MutableRect.of(rect);
-    }
+    void insert(T object);
 
-    MoeBstRoot(Point low, Point high) {
-        this(MutableRect.of(low, high));
-    }
-
-    @Override
-    public void searchDown(Consumer<Foothold> check, int x, int y, int radius) {
-        if (bounds.contains(x, y)) {
-            if (left != null) left.searchDown(check, x, y, radius);
-            if (right != null) right.searchDown(check, x, y, radius);
-        }
-    }
-
-    @Override
-    public synchronized void insert(Foothold fh) {
-        insertRaw(fh);
-    }
+    void searchDown(Consumer<T> check, int x, int y, int radius);
 }

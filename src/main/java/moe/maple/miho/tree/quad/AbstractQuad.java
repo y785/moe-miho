@@ -24,7 +24,9 @@ package moe.maple.miho.tree.quad;
 
 import moe.maple.miho.point.Point;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -133,9 +135,4 @@ public abstract class AbstractQuad<T> implements QuadTree<T> {
         return values.stream();
     }
 
-    @Override
-    public Iterator<T> iterator() {
-        if (values == null) return Collections.emptyIterator();
-        return values.iterator();
-    }
 }

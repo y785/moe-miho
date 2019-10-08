@@ -29,7 +29,6 @@ import moe.maple.miho.tree.bst.AbstractBstNode;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.function.Consumer;
 
 public class MoeBstNode extends AbstractBstNode<Foothold> {
@@ -62,17 +61,17 @@ public class MoeBstNode extends AbstractBstNode<Foothold> {
     }
 
     @Override
-    public void searchDown(Consumer<Foothold> check, int x, int y) {
+    public void searchDown(Consumer<Foothold> check, int x, int y, int radius) {
         // todo optimize
         if (left != null) {
             var lb = left.bounds();
             if (lb.compareX(x) == 0 && lb.compareY(y) != 1)
-                left.searchDown(check, x, y);
+                left.searchDown(check, x, y, radius);
         }
         if (right != null) {
             var rb = right.bounds();
             if (rb.compareX(x) == 0 && rb.compareY(y) != 1)
-                right.searchDown(check, x, y);
+                right.searchDown(check, x, y, radius);
         }
         if (rect.compareX(x) == 0 && rect.compareY(y) != 1) {
             data.forEach(check);

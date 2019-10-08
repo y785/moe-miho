@@ -4,11 +4,8 @@ import benchmark.odin.MapleFootholdTree;
 import moe.maple.miho.point.Point;
 import moe.maple.miho.space.PhysicalSpace2D;
 import moe.maple.miho.space.array.MoeFootholdArray;
-import moe.maple.miho.space.bst.MoeBstFootholdTree;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.TimeUnit;
 
@@ -27,11 +24,11 @@ public class PhysicalSpaceBenchmarks {
 
     @Setup
     public void setup() {
-        array = new MoeFootholdArray(Ellinia.LOW, Ellinia.HIGH, Ellinia.FOOTHOLDS);
-        bst = PhysicalSpace2D.ofBST(Ellinia.LOW, Ellinia.HIGH, Ellinia.FOOTHOLDS);
-        quad = PhysicalSpace2D.ofQuad(Ellinia.LOW, Ellinia.HIGH, Ellinia.FOOTHOLDS);
+        array = new MoeFootholdArray(Ellinia.BAD_LOW, Ellinia.BAD_HIGH, Ellinia.FOOTHOLDS);
+        bst = PhysicalSpace2D.ofBST(Ellinia.BAD_LOW, Ellinia.BAD_HIGH, Ellinia.FOOTHOLDS);
+        quad = PhysicalSpace2D.ofQuad(Ellinia.BAD_LOW, Ellinia.BAD_HIGH, Ellinia.FOOTHOLDS);
 
-        odintree = new MapleFootholdTree(Ellinia.LOW, Ellinia.HIGH, Ellinia.FOOTHOLDS);
+        odintree = new MapleFootholdTree(Ellinia.BAD_LOW, Ellinia.BAD_HIGH, Ellinia.FOOTHOLDS);
         // 3 flat, 3 slope, 1 top left, 1 top right
         points = new Point[] { // Todo, stream the footholds to find a list of random points., bigger list.
                 Point.of(428, -3530),

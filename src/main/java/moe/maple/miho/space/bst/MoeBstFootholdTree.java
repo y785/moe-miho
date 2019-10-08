@@ -47,7 +47,7 @@ public class MoeBstFootholdTree extends AbstractPhysicalSpace2D {
         root.searchDown(match -> {
             if (!match.isWall() && match.below(x, y))
                 result.setIf(res -> res.compareY(match) == 1, match);
-        }, x, y);
+        }, x, y, 0);
         return result.get();
     }
 
