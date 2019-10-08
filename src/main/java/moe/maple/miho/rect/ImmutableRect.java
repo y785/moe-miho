@@ -84,6 +84,11 @@ public class ImmutableRect implements Rect {
     }
 
     @Override
+    public Rect copy() {
+        return new ImmutableRect(x, y, w, h);
+    }
+
+    @Override
     public float angle(int x, int y) {
         return Point.angle(x + w / 2, y + h / 2, x, y);
     }

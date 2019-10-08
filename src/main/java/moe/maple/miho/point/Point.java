@@ -38,6 +38,8 @@ public interface Point extends Comparable<Point> {
         return line.above(this);
     }
 
+    Point copy();
+
     default int distance(int x, int y) {
         return Point.distance(x(), y(), x, y);
     }

@@ -39,6 +39,8 @@ public interface Line {
 
     long j2();
 
+    Line copy();
+
     Point start();
 
     Point end();

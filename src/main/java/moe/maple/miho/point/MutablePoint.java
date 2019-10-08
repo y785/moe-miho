@@ -27,6 +27,8 @@ public interface MutablePoint extends Point {
 
     void y(int y);
 
+    MutablePoint copy();
+
     default void plus(int x, int y) {
         x(x() + x);
         y(y() + y);

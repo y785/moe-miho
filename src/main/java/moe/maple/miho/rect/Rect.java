@@ -46,6 +46,8 @@ public interface Rect {
 
     int height();
 
+    Rect copy();
+
     float angle(int x, int y);
 
     default float angle(Point point) {

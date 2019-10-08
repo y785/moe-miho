@@ -34,6 +34,8 @@ public interface MutableLine extends Line {
 
     void y2(int y2);
 
+    MutableLine copy();
+
     static MutableLine of() {
         return new MoeLine();
     }

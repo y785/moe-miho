@@ -36,8 +36,7 @@ public class ImmutablePoint implements Point {
         this.y = y;
     }
 
-    public ImmutablePoint() {
-    }
+    public ImmutablePoint() { }
 
     @Override
     public int x() {
@@ -47,6 +46,11 @@ public class ImmutablePoint implements Point {
     @Override
     public int y() {
         return y;
+    }
+
+    @Override
+    public Point copy() {
+        return new ImmutablePoint(x, y);
     }
 
     @Override

@@ -34,6 +34,8 @@ public interface MutableRect extends Rect {
 
     void height(int height);
 
+    MutableRect copy();
+
     default void bounds(int x, int y, int w, int h) {
         if (w < 0)
             throw new IllegalArgumentException("Invalid rect width: " + w);

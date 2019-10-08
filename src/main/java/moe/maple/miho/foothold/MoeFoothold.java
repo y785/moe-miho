@@ -23,6 +23,7 @@
 package moe.maple.miho.foothold;
 
 import moe.maple.miho.line.MoeLine;
+import moe.maple.miho.line.MutableLine;
 import moe.maple.miho.point.Point;
 
 import java.util.Objects;
@@ -91,6 +92,11 @@ public class MoeFoothold extends MoeLine implements Foothold {
         if (compareX(x) != 0)
             return false;
         return !(y1 != y2 && !super.above(x, y) || (y1 < y && y2 < y));
+    }
+
+    @Override
+    public Foothold copy() {
+        return new MoeFoothold(id, layer, group, prev, next, x1, y1, x2, y2);
     }
 
     @Override

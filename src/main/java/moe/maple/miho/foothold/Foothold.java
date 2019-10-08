@@ -27,6 +27,8 @@ import moe.maple.miho.point.Point;
 
 public interface Foothold extends MutableLine {
 
+    Foothold copy();
+
     int id();
 
     int layer();

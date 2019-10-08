@@ -148,6 +148,11 @@ public class ImmutableLine implements Line {
     }
 
     @Override
+    public Line copy() {
+        return new ImmutableLine(x1, y1, x2, y2);
+    }
+
+    @Override
     public int cross(int x, int y) {
         return (x - x1) * (y2 - y1) - (y - y1) * (x2 - x1);
     }

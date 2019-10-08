@@ -48,4 +48,8 @@ public class MoeRect extends ImmutableRect implements MutableRect {
         this.h = height;
     }
 
+    @Override
+    public MutableRect copy() {
+        return new MoeRect(x, y, w, h);
+    }
 }

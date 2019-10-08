@@ -31,8 +31,7 @@ public class MoePoint extends ImmutablePoint implements MutablePoint {
         super(x, y);
     }
 
-    public MoePoint() {
-    }
+    public MoePoint() { }
 
     @Override
     public void x(int x) {
@@ -42,5 +41,10 @@ public class MoePoint extends ImmutablePoint implements MutablePoint {
     @Override
     public void y(int y) {
         this.y = y;
+    }
+
+    @Override
+    public MutablePoint copy() {
+        return new MoePoint(x, y);
     }
 }
