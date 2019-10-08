@@ -32,8 +32,8 @@ public Foothold getFootholdUnderneath(int x, int y) {
 ## Benchmarks
 ```
 Benchmark              Mode  Cnt       Score       Error  Units
-LiterallyAnArray      thrpt   20  239952.250 ± 11306.816  ops/s
-MihoBst               thrpt   20  716753.216 ± 39950.476  ops/s
 MihoQuad              thrpt   20  735644.743 ±  8855.393  ops/s
+MihoBst               thrpt   20  716753.216 ± 39950.476  ops/s
+LiterallyAnArray      thrpt   20  239952.250 ± 11306.816  ops/s
 Odin                  thrpt   20   22399.357 ±   424.996  ops/s
 ```
