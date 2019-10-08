@@ -24,12 +24,12 @@ package moe.maple.miho.space.array;
 
 import moe.maple.miho.foothold.Foothold;
 import moe.maple.miho.point.Point;
-import moe.maple.miho.tree.Tree;
+import moe.maple.miho.tree.PointTree;
 
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-public class ArrayTree implements Tree<Foothold> {
+public class ArrayTree implements PointTree<Foothold> {
 
     private final Foothold[] data;
 

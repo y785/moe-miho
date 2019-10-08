@@ -2,6 +2,7 @@ package test;
 
 import benchmark.Ellinia;
 import benchmark.odin.MapleFootholdTree;
+import moe.maple.miho.line.Line;
 import moe.maple.miho.point.Point;
 import moe.maple.miho.space.PhysicalSpace2D;
 import moe.maple.miho.space.bst.MoeBstFootholdTree;
@@ -16,21 +17,8 @@ public class PhysicalSpaceTests {
 
     @BeforeAll
     public static void setup() {
-        int lx, ly, hx, hy;
-        lx = ly = hx = hy = 0;
-        for (var object : Ellinia.FOOTHOLDS) {
-            if (lx > object.x1()) lx = object.x1();
-            if (hx < object.x1()) hx = object.x1();
-            if (ly > object.y1()) ly = object.y1();
-            if (hy < object.y1()) hy = object.y1();
-
-            if (lx > object.x2()) lx = object.x2();
-            if (hx < object.x2()) hx = object.x2();
-            if (ly > object.y2()) ly = object.y2();
-            if (hy < object.y2()) hy = object.y2();
-        }
-        var low = Point.of(lx, ly);  // Bottom left
-        var high = Point.of(hx, hy); // Top right
+        var low = Line.min(Ellinia.FOOTHOLDS);  // Bottom left
+        var high = Line.max(Ellinia.FOOTHOLDS); // Top right
 
         quadtree = PhysicalSpace2D.ofQuad(Ellinia.FOOTHOLDS);
         mapletree = new MapleFootholdTree(low, high, Ellinia.FOOTHOLDS);

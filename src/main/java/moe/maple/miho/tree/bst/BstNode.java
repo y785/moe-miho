@@ -24,14 +24,14 @@ package moe.maple.miho.tree.bst;
 
 import moe.maple.miho.foothold.Foothold;
 import moe.maple.miho.rect.Rect;
-import moe.maple.miho.tree.Tree;
+import moe.maple.miho.tree.PointTree;
 
 import java.util.Collection;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public interface BstNode<T extends Foothold> extends Tree<T> {
+public interface BstNode<T extends Foothold> extends PointTree<T> {
     Rect bounds();
 
     Collection<T> data();

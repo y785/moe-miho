@@ -25,8 +25,8 @@ package moe.maple.miho.space;
 import moe.maple.miho.foothold.Foothold;
 import moe.maple.miho.point.Point;
 import moe.maple.miho.rect.Rect;
+import moe.maple.miho.tree.PointTree;
 import moe.maple.miho.tree.Result;
-import moe.maple.miho.tree.Tree;
 
 import java.util.Iterator;
 import java.util.List;
@@ -38,9 +38,9 @@ public abstract class AbstractPhysicalSpace2D implements PhysicalSpace2D {
     protected final int width, height;
     protected final Rect bounds;
 
-    protected final Tree<Foothold> root;
+    protected final PointTree<Foothold> root;
 
-    protected AbstractPhysicalSpace2D(Point low, Point high, Tree<Foothold> root) {
+    protected AbstractPhysicalSpace2D(Point low, Point high, PointTree<Foothold> root) {
         this.low = low;
         this.high = high;
 

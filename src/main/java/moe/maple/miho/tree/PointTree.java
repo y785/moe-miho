@@ -26,7 +26,9 @@ import java.util.Collection;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-public interface Tree<T> {
+public interface PointTree<T> {
+
+
 
     void insert(T object);
 
