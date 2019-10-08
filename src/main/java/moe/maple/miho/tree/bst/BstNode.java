@@ -26,6 +26,7 @@ import moe.maple.miho.foothold.Foothold;
 import moe.maple.miho.rect.Rect;
 
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public interface BstNode<T extends Foothold> {
@@ -44,6 +45,8 @@ public interface BstNode<T extends Foothold> {
     BstNode<T> right();
 
     void insert(T data);
+
+    void search(Consumer<T> check, Predicate<BstNode<T>> pathCheck, int x, int y);
 
     void searchDown(Consumer<T> check, int x, int y);
 

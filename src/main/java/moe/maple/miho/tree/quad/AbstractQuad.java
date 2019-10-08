@@ -107,18 +107,18 @@ public abstract class AbstractQuad<T> implements QuadTree<T> {
     }
 
     @Override
-    public void searchDown(Consumer<T> action, int x, int y) {
+    public void searchDown(Consumer<T> action, int x, int y, int radius) {
         values.forEach(action);
         if (quadrants == null) return;
-        var radius = depth * 150 << 1;
-        if (quadrants[0].contains(x, y, radius))
-            quadrants[0].searchDown(action, x, y);
-        if (quadrants[1].contains(x, y, radius))
-            quadrants[1].searchDown(action, x, y);
-        if (quadrants[2].contains(x, y, radius))
-            quadrants[2].searchDown(action, x, y);
-        if (quadrants[3].contains(x, y, radius))
-            quadrants[3].searchDown(action, x, y);
+        var r = depth * radius << 1;
+        if (quadrants[0].contains(x, y, r))
+            quadrants[0].searchDown(action, x, y, radius);
+        if (quadrants[1].contains(x, y, r))
+            quadrants[1].searchDown(action, x, y, radius);
+        if (quadrants[2].contains(x, y, r))
+            quadrants[2].searchDown(action, x, y, radius);
+        if (quadrants[3].contains(x, y, r))
+            quadrants[3].searchDown(action, x, y, radius);
     }
 
     @Override

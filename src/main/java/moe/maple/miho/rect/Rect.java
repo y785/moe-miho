@@ -54,6 +54,13 @@ public interface Rect {
         return angle(point.x(), point.y());
     }
 
+    default float angle(long joined) {
+        return angle(Point.x(joined), Point.y(joined));
+    }
+
+    /**
+     * Does the param x lie within the x bounds of this rect?
+     */
     int compareX(int x);
 
     default int compareX(Point o) {
@@ -64,6 +71,9 @@ public interface Rect {
         return compareX(Point.x(joined));
     }
 
+    /**
+     * Does the param y lie within the y bounds of this rect?
+     */
     int compareY(int y);
 
     default int compareY(Point o) {

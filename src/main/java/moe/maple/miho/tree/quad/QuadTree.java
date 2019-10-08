@@ -49,8 +49,7 @@ public interface QuadTree<T> extends Iterable<T> {
 
     void insert(T object);
 
-    void searchDown(Consumer<T> check, int x, int y);
-//    void search(Consumer<T> check, int x, int y, int radius);
+    void searchDown(Consumer<T> check, int x, int y, int radius);
 
     Stream<QuadTree<T>> streamQuads();
 

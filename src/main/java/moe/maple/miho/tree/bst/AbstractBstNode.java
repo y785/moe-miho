@@ -29,6 +29,8 @@ import moe.maple.miho.rect.Rect;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public abstract class AbstractBstNode<T extends Foothold> implements BstNode<T> {
@@ -76,6 +78,15 @@ public abstract class AbstractBstNode<T extends Foothold> implements BstNode<T> 
     @Override
     public void right(BstNode<T> right) {
         this.right = right;
+    }
+
+    @Override
+    public void search(Consumer<T> check, Predicate<BstNode<T>> pathCheck, int x, int y) {
+        if (left != null && pathCheck.test(left))
+            left.searchDown(check, x, y);
+        if (right != null && pathCheck.test(right))
+            right.searchDown(check, x, y);
+        data.forEach(check);
     }
 
     @Override

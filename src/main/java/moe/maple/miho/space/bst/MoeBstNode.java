@@ -27,7 +27,9 @@ import moe.maple.miho.point.Point;
 import moe.maple.miho.rect.MutableRect;
 import moe.maple.miho.tree.bst.AbstractBstNode;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.function.Consumer;
 
 public class MoeBstNode extends AbstractBstNode<Foothold> {
@@ -48,6 +50,7 @@ public class MoeBstNode extends AbstractBstNode<Foothold> {
     @Override
     public synchronized void insert(Foothold fh) {
         if (rect == null || data == null || data.size() == 0) {
+            if (data == null) data = new ArrayList<>();
             data.add(fh);
             resize(fh);
         } else if (canJoin(fh)) {
@@ -84,6 +87,7 @@ public class MoeBstNode extends AbstractBstNode<Foothold> {
         if (!isFull()) return true;
         if (!rect.contains(fh)) return false;
 
+        // Find the line furthest from the center of this rect and move it out.
         var center = Point.ofCenter(rect);
         var max = data.stream().max(Comparator.comparing(f -> f.distance(center))).orElseThrow();
         if (fh.distance(center) > max.distance(center))
@@ -95,7 +99,7 @@ public class MoeBstNode extends AbstractBstNode<Foothold> {
             if (rm.id() == max.id()) {
                 iter.remove();
                 insertRaw(rm);
-                return true;
+                return true; // Found and removed, we have free space now!
             }
         }
 
@@ -116,11 +120,10 @@ public class MoeBstNode extends AbstractBstNode<Foothold> {
             parent.resizeBounds(fh);
     }
 
-    protected void insertRaw(Foothold fh) {
-        // todo this is bad
-        var angle = Point.angle(Point.ofCenterJoined(rect), fh.closest(Point.ofCenterJoined(rect)));
-        if (angle < 0) angle += 180;
-        if (angle >= 90) {
+    void insertRaw(Foothold fh) {
+        var cen = rect.cx();
+        var cls = Point.x(fh.closest(rect.cj()));
+        if (cls <= cen) {
             if (left == null) left = new MoeBstNode(this);
             left.insert(fh);
         } else {
