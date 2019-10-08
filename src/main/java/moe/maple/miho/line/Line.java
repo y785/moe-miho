@@ -26,6 +26,8 @@ import moe.maple.miho.point.Point;
 import moe.maple.miho.point.PointConsumer;
 import moe.maple.miho.rect.Rect;
 
+import java.util.Collection;
+
 public interface Line {
     int x1();
 
@@ -189,5 +191,61 @@ public interface Line {
         var y = rect.y();
         var w = rect.width();
         return of(x + w, y, x + w, y + rect.height());
+    }
+
+    static Point max(Line... lines) {
+        return Point.of(maxj(lines));
+    }
+
+    static Point max(Collection<? extends Line> lines) {
+        return Point.of(maxj(lines));
+    }
+
+    static long maxj(Line... lines) {
+        var mx = 0;
+        var my = 0;
+        for (var ln : lines) {
+            mx = Math.max(Math.max(ln.x1(), mx), ln.x2());
+            my = Math.max(Math.max(ln.y1(), my), ln.y2());
+        }
+        return Point.joined(mx, my);
+    }
+
+    static long maxj(Collection<? extends Line> lines) {
+        var mx = 0;
+        var my = 0;
+        for (var ln : lines) {
+            mx = Math.max(Math.max(ln.x1(), mx), ln.x2());
+            my = Math.max(Math.max(ln.y1(), my), ln.y2());
+        }
+        return Point.joined(mx, my);
+    }
+
+    static Point min(Line[] lines) {
+        return Point.of(minj(lines));
+    }
+
+    static Point min(Collection<? extends Line> lines) {
+        return Point.of(minj(lines));
+    }
+
+    static long minj(Line... lines) {
+        var mx = 0;
+        var my = 0;
+        for (var ln : lines) {
+            mx = Math.min(Math.min(ln.x1(), mx), ln.x2());
+            my = Math.min(Math.min(ln.y1(), my), ln.y2());
+        }
+        return Point.joined(mx, my);
+    }
+
+    static long minj(Collection<? extends Line> lines) {
+        var mx = 0;
+        var my = 0;
+        for (var ln : lines) {
+            mx = Math.min(Math.min(ln.x1(), mx), ln.x2());
+            my = Math.min(Math.min(ln.y1(), my), ln.y2());
+        }
+        return Point.joined(mx, my);
     }
 }

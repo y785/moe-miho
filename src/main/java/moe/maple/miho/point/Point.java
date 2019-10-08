@@ -25,6 +25,8 @@ package moe.maple.miho.point;
 import moe.maple.miho.line.Line;
 import moe.maple.miho.rect.Rect;
 
+import java.util.Collection;
+
 public interface Point extends Comparable<Point> {
     int x();
 
@@ -153,5 +155,61 @@ public interface Point extends Comparable<Point> {
 
     static Point ofBottomRight(Rect rect) {
         return of(rect.x() + rect.width(), rect.y());
+    }
+
+    static Point max(Point... points) {
+        return Point.of(maxj(points));
+    }
+
+    static Point max(Collection<Point> points) {
+        return Point.of(maxj(points));
+    }
+
+    static long maxj(Point... points) {
+        var mx = 0;
+        var my = 0;
+        for (var p : points) {
+            mx = Math.max(p.x(), mx);
+            my = Math.max(p.y(), my);
+        }
+        return Point.joined(mx, my);
+    }
+
+    static long maxj(Collection<Point> points) {
+        var mx = 0;
+        var my = 0;
+        for (var p : points) {
+            mx = Math.max(p.x(), mx);
+            my = Math.max(p.y(), my);
+        }
+        return Point.joined(mx, my);
+    }
+
+    static Point min(Point[] points) {
+        return Point.of(minj(points));
+    }
+
+    static Point min(Collection<Point> points) {
+        return Point.of(minj(points));
+    }
+
+    static long minj(Point... points) {
+        var mx = 0;
+        var my = 0;
+        for (var p : points) {
+            mx = Math.min(p.x(), mx);
+            my = Math.min(p.y(), my);
+        }
+        return Point.joined(mx, my);
+    }
+
+    static long minj(Collection<Point> points) {
+        var mx = 0;
+        var my = 0;
+        for (var p : points) {
+            mx = Math.min(p.x(), mx);
+            my = Math.min(p.y(), my);
+        }
+        return Point.joined(mx, my);
     }
 }

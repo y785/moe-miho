@@ -23,14 +23,28 @@
 package moe.maple.miho.space;
 
 import moe.maple.miho.foothold.Foothold;
+import moe.maple.miho.line.Line;
 import moe.maple.miho.point.Point;
 import moe.maple.miho.rect.Rect;
+import moe.maple.miho.space.bst.MoeBstFootholdTree;
 import moe.maple.miho.space.quad.MoeFootholdQuadTree;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
 
 public interface PhysicalSpace2D extends Iterable<Foothold> {
+    int hx();
+    int hy();
+    int lx();
+    int ly();
+    int cx();
+    int cy();
+
+    long hj();
+    long lj();
+    long cj();
+
     Point high();
 
     Point low();
@@ -67,25 +81,35 @@ public interface PhysicalSpace2D extends Iterable<Foothold> {
         return isInBounds(point.x(), point.y());
     }
 
+    static PhysicalSpace2D ofBST(Foothold[] footholds) {
+        return ofBST(Line.min(footholds), Line.max(footholds), footholds);
+    }
+
+    static PhysicalSpace2D ofBST(Collection<Foothold> footholds) {
+        return ofBST(Line.min(footholds), Line.max(footholds), footholds);
+    }
+
     static PhysicalSpace2D ofBST(Point low, Point high, Foothold[] footholds) {
-        return new MoeFootholdQuadTree(low, high, footholds);
+        return new MoeBstFootholdTree(low, high, footholds);
+    }
+
+    static PhysicalSpace2D ofBST(Point low, Point high, Collection<Foothold> footholds) {
+        return new MoeBstFootholdTree(low, high, footholds.toArray(Foothold[]::new));
     }
 
     static PhysicalSpace2D ofQuad(Point low, Point high, Foothold[] footholds) {
         return new MoeFootholdQuadTree(low, high, footholds);
     }
 
+    static PhysicalSpace2D ofQuad(Point low, Point high, Collection<Foothold> footholds) {
+        return ofQuad(low, high, footholds.toArray(Foothold[]::new));
+    }
+
     static PhysicalSpace2D ofQuad(Foothold[] footholds) {
-        var lx = 0;
-        var ly = 0;
-        var hx = 0;
-        var hy = 0;
-        for (var fh : footholds) {
-            lx = Math.min(Math.min(fh.x1(), lx), fh.x2());
-            ly = Math.min(Math.min(fh.y1(), ly), fh.y2());
-            hx = Math.max(Math.max(fh.x1(), hx), fh.x2());
-            hy = Math.max(Math.max(fh.y1(), hy), fh.y2());
-        }
-        return ofQuad(Point.of(lx, ly), Point.of(hx, hy), footholds);
+        return ofQuad(Line.min(footholds), Line.max(footholds), footholds);
+    }
+
+    static PhysicalSpace2D ofQuad(Collection<Foothold> footholds) {
+        return ofQuad(Line.min(footholds), Line.max(footholds), footholds);
     }
 }

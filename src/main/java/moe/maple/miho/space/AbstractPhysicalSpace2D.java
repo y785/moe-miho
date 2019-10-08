@@ -30,6 +30,7 @@ import java.util.function.Supplier;
 
 public abstract class AbstractPhysicalSpace2D implements PhysicalSpace2D {
 
+    // todo move this out, it's largely provided from the trees themselves.
     private final Point low, high, center;
     private final int width, height;
     private final Rect bounds;
@@ -73,6 +74,51 @@ public abstract class AbstractPhysicalSpace2D implements PhysicalSpace2D {
     @Override
     public int height() {
         return height;
+    }
+
+    @Override
+    public int hx() {
+        return high.x();
+    }
+
+    @Override
+    public int hy() {
+        return high.y();
+    }
+
+    @Override
+    public int lx() {
+        return low.x();
+    }
+
+    @Override
+    public int ly() {
+        return low.y();
+    }
+
+    @Override
+    public int cx() {
+        return center.x();
+    }
+
+    @Override
+    public int cy() {
+        return center.y();
+    }
+
+    @Override
+    public long hj() {
+        return high.joined();
+    }
+
+    @Override
+    public long lj() {
+        return low.joined();
+    }
+
+    @Override
+    public long cj() {
+        return center.joined();
     }
 
     @Override
