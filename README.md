@@ -31,13 +31,13 @@ public Foothold getFootholdUnderneath(int x, int y) {
 ```
 
 ### Benchmarks
-The benchmarks are by no means perfect, but they show some promising results. These were run with a mix of regular points and sloped points using ellinia's footholds.
+The benchmarks are by no means perfect, but they show some promising results. These were run with a mix of regular points and sloped points using ellinia's footholds. BST is the clear winner and is the 2nd most fault tolerant. The first obviously being the array iteration.
 ```
-Benchmark              Mode  Cnt       Score       Error  Units
-MihoQuad              thrpt   20  735644.743 ±  8855.393  ops/s
-MihoBst               thrpt   20  716753.216 ± 39950.476  ops/s
-LiterallyAnArray      thrpt   20  239952.250 ± 11306.816  ops/s
-Odin                  thrpt   20   22399.357 ±   424.996  ops/s
+Benchmark          Mode  Cnt        Score       Error  Units
+Bst               thrpt   20  2153434.103 ± 36622.564  ops/s
+Quad              thrpt   20   748475.970 ± 21468.748  ops/s
+LiterallyAnArray  thrpt   20   167335.920 ± 59497.594  ops/s
+Odin              thrpt   20    22285.210 ±   768.409  ops/s
 ```
 
 ### Plans Going forward
