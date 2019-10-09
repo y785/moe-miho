@@ -23,9 +23,17 @@
 package moe.maple.miho.space.array;
 
 import moe.maple.miho.foothold.Foothold;
+import moe.maple.miho.line.Line;
 import moe.maple.miho.point.Point;
+import moe.maple.miho.rect.MutableRect;
+import moe.maple.miho.rect.Rect;
 import moe.maple.miho.tree.PointTree;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -35,6 +43,11 @@ public class ArrayTree implements PointTree<Foothold> {
 
     public ArrayTree(Point low, Point high, Foothold[] footholds) {
         this.data = footholds;
+    }
+
+    @Override
+    public Rect bounds() {
+        return MutableRect.of(Line.min(data), Line.max(data));
     }
 
     @Override
@@ -52,5 +65,23 @@ public class ArrayTree implements PointTree<Foothold> {
     @Override
     public Stream<Foothold> stream() {
         return Stream.of(data);
+    }
+
+    @Override
+    public void draw(Path filePath) throws IOException {
+        var min = Line.min(data);
+        var max = Line.max(data);
+        var tx = Math.abs(min.x());
+        var ty = Math.abs(min.y());
+        var bounds = MutableRect.of(min, max);
+
+        var img = new BufferedImage(bounds.width() + 2, bounds.height() + 2, BufferedImage.TYPE_INT_ARGB);
+        var gfx = img.createGraphics();
+        gfx.setStroke(new BasicStroke(1));
+        gfx.setColor(Color.GREEN);
+        for (var fh : data) {
+            gfx.drawLine(fh.x1() + tx, fh.y1() + ty, fh.x2() + tx, fh.y2() + ty);
+        }
+        ImageIO.write(img, "PNG", filePath.toFile());
     }
 }

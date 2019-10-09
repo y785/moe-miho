@@ -38,7 +38,7 @@ public abstract class AbstractPhysicalSpace2D implements PhysicalSpace2D {
     protected final int width, height;
     protected final Rect bounds;
 
-    protected final PointTree<Foothold> root;
+    public final PointTree<Foothold> root;
 
     protected AbstractPhysicalSpace2D(Point low, Point high, PointTree<Foothold> root) {
         this.low = low;
@@ -126,6 +126,11 @@ public abstract class AbstractPhysicalSpace2D implements PhysicalSpace2D {
     @Override
     public long cj() {
         return center.joined();
+    }
+
+    @Override
+    public PointTree tree() {
+        return root;
     }
 
     @Override

@@ -38,6 +38,10 @@ public interface QuadTree<T> extends PointTree<T> {
 
     int size();
 
+    int width();
+
+    int height();
+
     Point low();
 
     Point high();

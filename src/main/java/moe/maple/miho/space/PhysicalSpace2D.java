@@ -28,6 +28,7 @@ import moe.maple.miho.point.Point;
 import moe.maple.miho.rect.Rect;
 import moe.maple.miho.space.bst.MoeBstFootholdTree;
 import moe.maple.miho.space.quad.MoeFootholdQuadTree;
+import moe.maple.miho.tree.PointTree;
 
 import java.util.Collection;
 import java.util.List;
@@ -56,6 +57,8 @@ public interface PhysicalSpace2D extends Iterable<Foothold> {
     int width();
 
     int height();
+
+    PointTree tree();
 
     Foothold getFootholdUnderneath(int x, int y);
 

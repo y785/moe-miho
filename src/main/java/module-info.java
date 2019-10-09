@@ -1,4 +1,6 @@
 module moe.maple.miho {
+    requires java.desktop; // Awt for drawing
+
     exports moe.maple.miho.foothold;
     exports moe.maple.miho.line;
     exports moe.maple.miho.point;

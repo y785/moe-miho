@@ -22,16 +22,23 @@
 
 package moe.maple.miho.tree;
 
+import moe.maple.miho.rect.Rect;
+
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 public interface PointTree<T> {
 
+    Rect bounds();
 
+    void draw(Path filePath) throws IOException;
 
     void insert(T object);
 
+    @SuppressWarnings("unchecked")
     default void insert(T... objects) {
         for (var obj : objects) insert(obj);
     }
@@ -43,4 +50,5 @@ public interface PointTree<T> {
     void searchDown(Consumer<T> check, int x, int y, int radius);
 
     Stream<T> stream();
+
 }

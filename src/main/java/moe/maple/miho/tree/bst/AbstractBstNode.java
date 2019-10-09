@@ -23,24 +23,20 @@
 package moe.maple.miho.tree.bst;
 
 import moe.maple.miho.foothold.Foothold;
-import moe.maple.miho.rect.MutableRect;
-import moe.maple.miho.rect.Rect;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public abstract class AbstractBstNode<T extends Foothold> implements BstNode<T> {
 
     protected static final int MAX_DATA_SIZE = 5;
 
-    protected MutableRect bounds;
     protected int level;
-    protected BstNode<T> left, right;
     protected List<T> data;
 
     protected AbstractBstNode(int level) {
@@ -49,8 +45,8 @@ public abstract class AbstractBstNode<T extends Foothold> implements BstNode<T> 
     }
 
     @Override
-    public Rect bounds() {
-        return bounds;
+    public void draw(Path filePath) throws IOException {
+        throw new UnsupportedOperationException("Drawing a subquad isn't supported, yet");
     }
 
     @Override
@@ -64,36 +60,9 @@ public abstract class AbstractBstNode<T extends Foothold> implements BstNode<T> 
     }
 
     @Override
-    public BstNode<T> left() {
-        return left;
-    }
-
-    @Override
-    public BstNode<T> right() {
-        return right;
-    }
-
-    @Override
-    public void left(BstNode<T> left) {
-        this.left = left;
-    }
-
-    @Override
-    public void right(BstNode<T> right) {
-        this.right = right;
-    }
-
-    @Override
-    public void search(Consumer<T> check, Predicate<BstNode<T>> pathCheck, int x, int y) {
-        if (left != null && pathCheck.test(left))
-            left.search(check, pathCheck, x, y);
-        if (right != null && pathCheck.test(right))
-            right.search(check, pathCheck, x, y);
-        data.forEach(check);
-    }
-
-    @Override
     public Stream<BstNode<T>> streamNodes() {
+        var left = left();
+        var right = right();
         if (left == null && right == null)
             return Stream.of(this);
         if (left == null)
@@ -105,6 +74,8 @@ public abstract class AbstractBstNode<T extends Foothold> implements BstNode<T> 
 
     @Override
     public Stream<T> stream() {
+        var left = left();
+        var right = right();
         if (left == null && right == null)
             return data.stream();
         if (left == null)

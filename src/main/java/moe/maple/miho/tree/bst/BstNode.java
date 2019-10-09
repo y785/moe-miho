@@ -38,9 +38,7 @@ public interface BstNode<T extends Foothold> extends PointTree<T> {
 
     int level();
 
-    void left(BstNode<T> left);
-
-    void right(BstNode<T> right);
+    BstNode<T> parent();
 
     BstNode<T> left();
 

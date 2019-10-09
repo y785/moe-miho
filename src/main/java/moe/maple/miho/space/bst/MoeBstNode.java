@@ -23,18 +23,25 @@
 package moe.maple.miho.space.bst;
 
 import moe.maple.miho.foothold.Foothold;
+import moe.maple.miho.line.Line;
 import moe.maple.miho.point.Point;
 import moe.maple.miho.rect.MutableRect;
+import moe.maple.miho.rect.Rect;
 import moe.maple.miho.tree.bst.AbstractBstNode;
+import moe.maple.miho.tree.bst.BstNode;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class MoeBstNode extends AbstractBstNode<Foothold> {
 
+    protected MutableRect bounds;
+    protected MutableRect rootBounds;
+
     protected MoeBstNode parent;
-    protected MutableRect rect;
+    protected MoeBstNode left, right;
 
     public MoeBstNode(MoeBstNode parent) {
         super(parent == null ? 0 : parent.level + 1);
@@ -42,8 +49,28 @@ public class MoeBstNode extends AbstractBstNode<Foothold> {
     }
 
     @Override
+    public Rect bounds() {
+        return bounds;
+    }
+
+    @Override
+    public BstNode<Foothold> parent() {
+        return parent;
+    }
+
+    @Override
+    public BstNode<Foothold> left() {
+        return left;
+    }
+
+    @Override
+    public BstNode<Foothold> right() {
+        return right;
+    }
+
+    @Override
     public synchronized void insert(Foothold fh) {
-        if (rect == null || data == null || data.size() == 0) {
+        if (bounds == null || data == null || data.size() == 0) {
             if (data == null) data = new ArrayList<>();
             data.add(fh);
             resize(fh);
@@ -56,19 +83,27 @@ public class MoeBstNode extends AbstractBstNode<Foothold> {
     }
 
     @Override
+    public void search(Consumer<Foothold> check, Predicate<BstNode<Foothold>> pathCheck, int x, int y) {
+        if (left != null && pathCheck.test(left))
+            left.search(check, pathCheck, x, y);
+        if (right != null && pathCheck.test(right))
+            right.search(check, pathCheck, x, y);
+        data.forEach(check);
+    }
+
+    @Override
     public void searchDown(Consumer<Foothold> check, int x, int y, int radius) {
-        // todo optimize
         if (left != null) {
-            var lb = left.bounds();
+            var lb = left.getRootBounds();
             if (lb.compareX(x) == 0 && lb.compareY(y) != 1)
                 left.searchDown(check, x, y, radius);
         }
         if (right != null) {
-            var rb = right.bounds();
+            var rb = right.getRootBounds();
             if (rb.compareX(x) == 0 && rb.compareY(y) != 1)
                 right.searchDown(check, x, y, radius);
         }
-        if (rect.compareX(x) == 0 && rect.compareY(y) != 1) {
+        if (bounds.compareX(x) == 0 && bounds.compareY(y) != 1) {
             data.forEach(check);
         }
     }
@@ -77,12 +112,24 @@ public class MoeBstNode extends AbstractBstNode<Foothold> {
         return data.size() == 5;
     }
 
+    public MutableRect getRootBounds() {
+        return rootBounds;
+    }
+
+    public void left(MoeBstNode left) {
+        this.left = left;
+    }
+
+    public void right(MoeBstNode right) {
+        this.right = right;
+    }
+
     private boolean canJoin(Foothold fh) {
         if (!isFull()) return true;
-        if (!rect.contains(fh)) return false;
+        if (!bounds.contains(fh)) return false;
 
         // Find the line furthest from the center of this rect and move it out.
-        var center = Point.ofCenter(rect);
+        var center = Point.ofCenter(bounds);
         var max = data.stream().max(Comparator.comparing(f -> f.distance(center))).orElseThrow();
         if (fh.distance(center) > max.distance(center))
             return false;
@@ -93,6 +140,9 @@ public class MoeBstNode extends AbstractBstNode<Foothold> {
             if (rm.id() == max.id()) {
                 iter.remove();
                 insertRaw(rm);
+                var low = Line.min(data);
+                var high = Line.max(data);
+                this.bounds = MutableRect.of(low, high);
                 return true; // Found and removed, we have free space now!
             }
         }
@@ -101,22 +151,22 @@ public class MoeBstNode extends AbstractBstNode<Foothold> {
     }
 
     private void resize(Foothold fh) {
-        if (rect == null) {
-            rect = MutableRect.of(fh);
-            bounds = MutableRect.of(fh);
-        } else rect.union(fh);
+        if (bounds == null) {
+            this.bounds = MutableRect.of(fh);
+            this.rootBounds = MutableRect.of(fh);
+        } else this.bounds.union(fh);
         resizeBounds(fh);
     }
 
     private void resizeBounds(Foothold fh) {
-        bounds.union(fh);
+        rootBounds.union(fh);
         if (parent != null)
             parent.resizeBounds(fh);
     }
 
     void insertRaw(Foothold fh) {
-        var cen = rect.cx();
-        var cls = Point.x(fh.closest(rect.cj()));
+        var cen = bounds.cx();
+        var cls = Point.x(fh.closest(bounds.cj()));
         if (cls <= cen) {
             if (left == null) left = new MoeBstNode(this);
             left.insert(fh);
@@ -124,6 +174,10 @@ public class MoeBstNode extends AbstractBstNode<Foothold> {
             if (right == null) right = new MoeBstNode(this);
             right.insert(fh);
         }
+    }
+
+    public Rect rect() {
+        return bounds;
     }
 
 }
