@@ -23,7 +23,6 @@
 package moe.maple.miho.space;
 
 import moe.maple.miho.foothold.Foothold;
-import moe.maple.miho.point.Point;
 import moe.maple.miho.rect.Rect;
 import moe.maple.miho.tree.PointTree;
 import moe.maple.miho.tree.Result;
@@ -33,99 +32,11 @@ import java.util.List;
 
 public abstract class AbstractPhysicalSpace2D implements PhysicalSpace2D {
 
-    // todo move this out, it's largely provided from the trees themselves.
-    protected final Point low, high, center;
-    protected final int width, height;
-    protected final Rect bounds;
-
     public final PointTree<Foothold> root;
 
-    protected AbstractPhysicalSpace2D(Point low, Point high, PointTree<Foothold> root) {
-        this.low = low;
-        this.high = high;
-
-        this.width = high.x() - low.x();
-        this.height = high.y() - low.y();
-
-        this.bounds = Rect.of(low.x() + height, low.y() + height, width, height);
-        this.center = Point.ofCenter(bounds);
+    protected AbstractPhysicalSpace2D(PointTree<Foothold> root) {
 
         this.root = root;
-    }
-
-    @Override
-    public Point high() {
-        return high;
-    }
-
-    @Override
-    public Point low() {
-        return low;
-    }
-
-    @Override
-    public Point center() {
-        return center;
-    }
-
-    @Override
-    public Rect bounds() {
-        return bounds;
-    }
-
-    @Override
-    public int width() {
-        return width;
-    }
-
-    @Override
-    public int height() {
-        return height;
-    }
-
-    @Override
-    public int hx() {
-        return high.x();
-    }
-
-    @Override
-    public int hy() {
-        return high.y();
-    }
-
-    @Override
-    public int lx() {
-        return low.x();
-    }
-
-    @Override
-    public int ly() {
-        return low.y();
-    }
-
-    @Override
-    public int cx() {
-        return center.x();
-    }
-
-    @Override
-    public int cy() {
-        return center.y();
-    }
-
-    @Override
-    public long hj() {
-        return high.joined();
-    }
-
-    @Override
-    public long lj() {
-        return low.joined();
-    }
-
-    @Override
-    public long cj() {
-        return center.joined();
     }
 
     @Override
@@ -135,7 +46,7 @@ public abstract class AbstractPhysicalSpace2D implements PhysicalSpace2D {
 
     @Override
     public boolean isInBounds(int x, int y) {
-        return bounds.contains(x, y);
+        return root.bounds().contains(x, y);
     }
 
     @Override

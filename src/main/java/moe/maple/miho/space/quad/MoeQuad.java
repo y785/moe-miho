@@ -33,7 +33,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashSet;
 
-/* More memory, faster resolves. */
+@Deprecated
 public class MoeQuad extends AbstractQuad<Foothold> {
 
     private final static int MAX_DEPTH = 3;

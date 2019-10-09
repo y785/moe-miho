@@ -29,7 +29,7 @@ import moe.maple.miho.space.AbstractPhysicalSpace2D;
 public class MoeBstFootholdTree extends AbstractPhysicalSpace2D {
 
     public MoeBstFootholdTree(Point low, Point high, Foothold[] footholds) {
-        super(low, high, new MoeBstRoot(low, high));
+        super(new MoeBstRoot(low, high));
         root.insert(footholds);
     }
 }

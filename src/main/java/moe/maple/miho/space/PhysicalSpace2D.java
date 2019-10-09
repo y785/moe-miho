@@ -35,28 +35,6 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public interface PhysicalSpace2D extends Iterable<Foothold> {
-    int hx();
-    int hy();
-    int lx();
-    int ly();
-    int cx();
-    int cy();
-
-    long hj();
-    long lj();
-    long cj();
-
-    Point high();
-
-    Point low();
-
-    Point center();
-
-    Rect bounds();
-
-    int width();
-
-    int height();
 
     PointTree tree();
 

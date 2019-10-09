@@ -28,6 +28,10 @@ import moe.maple.miho.tree.PointTree;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+/**
+ * You shouldn't use this. See {@link moe.maple.miho.tree.bst.BstNode}.
+ */
+@Deprecated
 public interface QuadTree<T> extends PointTree<T> {
     int QUAD_NW = 0;
     int QUAD_NE = 1;

@@ -26,6 +26,7 @@ import moe.maple.miho.foothold.Foothold;
 import moe.maple.miho.point.Point;
 import moe.maple.miho.space.AbstractPhysicalSpace2D;
 
+@Deprecated
 public class MoeFootholdQuadTree extends AbstractPhysicalSpace2D {
 
     public MoeFootholdQuadTree(Point low, Point high, Foothold[] footholds) {
