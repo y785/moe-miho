@@ -30,7 +30,7 @@ import moe.maple.miho.space.AbstractPhysicalSpace2D;
 public class MoeFootholdQuadTree extends AbstractPhysicalSpace2D {
 
     public MoeFootholdQuadTree(Point low, Point high, Foothold[] footholds) {
-        super(low, high, new MoeQuad(0, low, high));
+        super(new MoeQuad(0, low, high));
         this.root.insert(footholds);
     }
 }

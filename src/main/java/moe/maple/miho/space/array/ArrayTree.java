@@ -51,6 +51,16 @@ public class ArrayTree implements PointTree<Foothold> {
     }
 
     @Override
+    public Point low() {
+        return Line.min(data);
+    }
+
+    @Override
+    public Point high() {
+        return Line.max(data);
+    }
+
+    @Override
     public void insert(Foothold object) {
         throw new UnsupportedOperationException("Nope.");
     }

@@ -42,8 +42,8 @@ public class Spaces {
     }
     
     public static long explosion(PhysicalSpace2D space, int fromX, int fromY, int iter, int spacing) {
-        var low = space.low();
-        var high = space.high();
+        var low = space.tree().low();
+        var high = space.tree().high();
 
         var left = iter % 2 == 0;
         var x = left ?

@@ -22,6 +22,7 @@
 
 package moe.maple.miho.tree;
 
+import moe.maple.miho.point.Point;
 import moe.maple.miho.rect.Rect;
 
 import java.io.IOException;
@@ -33,6 +34,10 @@ import java.util.stream.Stream;
 public interface PointTree<T> {
 
     Rect bounds();
+
+    Point low();
+
+    Point high();
 
     void draw(Path filePath) throws IOException;
 

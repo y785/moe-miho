@@ -54,6 +54,16 @@ public class MoeBstNode extends AbstractBstNode<Foothold> {
     }
 
     @Override
+    public Point low() {
+        return Point.ofBottomLeft(rootBounds);
+    }
+
+    @Override
+    public Point high() {
+        return Point.ofTopRight(rootBounds);
+    }
+
+    @Override
     public BstNode<Foothold> parent() {
         return parent;
     }
