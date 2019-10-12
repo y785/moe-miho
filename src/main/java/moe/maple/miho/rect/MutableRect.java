@@ -84,13 +84,9 @@ public interface MutableRect extends Rect {
         union(point.x(), point.y());
     }
 
-    default void union(long joined) {
-        union(Point.x(joined), Point.y(joined));
-    }
-
     default void union(Line line) {
-        union(line.j1());
-        union(line.j2());
+        union(line.start());
+        union(line.end());
     }
 
     static MutableRect of() {
@@ -106,18 +102,11 @@ public interface MutableRect extends Rect {
     }
 
     static MutableRect of(Point a, Point b) {
-        var ax = a.x();
-        var ay = a.y();
-        var bx = b.x();
-        var by = b.y();
-
-        var lx = Math.min(ax, bx);
-        var ly = Math.min(ay, by);
-        var hx = Math.max(ax, bx);
-        var hy = Math.max(ay, by);
-
-        return of(lx - 1, ly - 1,
-                Math.abs(lx - hx) + 2, Math.abs(ly - hy) + 2);
+        var min = Point.min(a, b);
+        var max = Point.max(a, b);
+        return of(min.x() - 1, min.y() - 1,
+                Math.abs(min.x() - max.x()) + 2,
+                Math.abs(min.y() - max.y()) + 2);
     }
 
     static MutableRect of(Line line) {

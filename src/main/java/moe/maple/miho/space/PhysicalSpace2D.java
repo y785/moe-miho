@@ -64,10 +64,6 @@ public interface PhysicalSpace2D extends Iterable<Foothold> {
 
     boolean isInBounds(int x, int y);
 
-    default boolean isInBounds(long joined) {
-        return isInBounds(Point.x(joined), Point.y(joined));
-    }
-
     default boolean isInBounds(Point point) {
         return isInBounds(point.x(), point.y());
     }

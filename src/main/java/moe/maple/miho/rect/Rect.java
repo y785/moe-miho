@@ -30,17 +30,19 @@ import moe.maple.miho.point.Point;
  */
 public interface Rect {
 
+    int INSIDE = 0;
+    int OUT_LEFT = 1;
+    int OUT_TOP = 2;
+    int OUT_RIGHT = 4;
+    int OUT_BOTTOM = 8;
+
     int x();
 
     int y();
 
-    long j();
-
     int cx();
 
     int cy();
-
-    long cj();
 
     int width();
 
@@ -54,10 +56,6 @@ public interface Rect {
         return angle(point.x(), point.y());
     }
 
-    default float angle(long joined) {
-        return angle(Point.x(joined), Point.y(joined));
-    }
-
     /**
      * Does the param x lie within the x bounds of this rect?
      */
@@ -65,10 +63,6 @@ public interface Rect {
 
     default int compareX(Point o) {
         return compareX(o.x());
-    }
-
-    default int compareX(long joined) {
-        return compareX(Point.x(joined));
     }
 
     /**
@@ -80,17 +74,9 @@ public interface Rect {
         return compareY(o.y());
     }
 
-    default int compareY(long joined) {
-        return compareY(Point.y(joined));
-    }
-
     boolean contains(int x, int y);
 
     boolean contains(int x, int y, int radius);
-
-    default boolean contains(long joined) {
-        return contains(Point.x(joined), Point.y(joined));
-    }
 
     default boolean contains(Point point) {
         return contains(point.x(), point.y());
@@ -102,10 +88,74 @@ public interface Rect {
 
     boolean intersects(Rect rect);
 
-    boolean intersects(int x1, int y1, int x2, int y2);
+    default boolean intersects(int x1, int y1, int x2, int y2) {
+        return intersects(x(), y(), width(), height(), x1, y1, x2, y2);
+    }
 
     default boolean intersects(Line line) {
         return intersects(line.x1(), line.y1(), line.x2(), line.y2());
+    }
+
+    /**
+     * Line clipping: Cohen–Sutherland
+     */
+    static boolean intersects(int x, int y, int w, int h, int x1, int y1, int x2, int y2) {
+        var ymin = y;
+        var ymax = ymin + h;
+        var xmin = x;
+        var xmax = xmin + w;
+        var outcode0 = outcode(xmin, ymin, w, h, x1, y1);
+        var outcode1 = outcode(xmin, ymin, w, h, x2, y2);
+
+        while (true) {
+            if ((outcode0 | outcode1) == 0) {
+                return true;
+            } else if ((outcode0 & outcode1) != 0) {
+                return false;
+            } else {
+                x = y = 0;
+                var out = outcode0 == INSIDE ? outcode1 : outcode0;
+                if ((out & OUT_TOP) != 0) {
+                    x = x1 + (x2 - x1) * (ymax - y1) / (y2 - y1);
+                    y = ymax;
+                } else if ((out & OUT_BOTTOM) != 0) {
+                    x = x1 + (x2 - x1) * (ymin - y1) / (y2 - y1);
+                    y = ymin;
+                } else if ((out & OUT_RIGHT) != 0) {
+                    y = y1 + (y2 - y1) * (xmax - x1) / (x2 - x1);
+                    x = xmax;
+                } else if ((out & OUT_LEFT) != 0) {
+                    y = y1 + (y2 - y1) * (xmin - x1) / (x2 - x1);
+                    x = xmax;
+                }
+                if (out == outcode0) {
+                    x1 = x;
+                    y1 = y;
+                    outcode0 = outcode(xmin, ymin, w, h, x1, y2);
+                } else {
+                    x2 = x;
+                    y2 = y;
+                    outcode1 = outcode(xmin, ymin, w, h, x2, y2);
+                }
+            }
+        }
+    }
+
+    static int outcode(int rx, int ry, int w, int h, int x, int y) {
+        var out = INSIDE;
+        if (x < rx)
+            out |= OUT_LEFT;
+        else if (x > rx + w)
+            out |= OUT_RIGHT;
+        else if (w <= 0)
+            out |= OUT_LEFT | OUT_RIGHT;
+        if (y < ry)
+            out |= OUT_BOTTOM;
+        else if (y > ry + h)
+            out |= OUT_TOP;
+        else if (h <= 0)
+            out |= OUT_TOP | OUT_BOTTOM;
+        return out;
     }
 
     static Rect of() {
@@ -114,6 +164,14 @@ public interface Rect {
 
     static Rect of(Rect other) {
         return of(other.x(), other.y(), other.width(), other.height());
+    }
+
+    static Rect of(Point a, Point b) {
+        var min = Point.min(a, b);
+        var max = Point.max(a, b);
+        return of(min.x() - 1, min.y() - 1,
+                Math.abs(min.x() - max.x()) + 2,
+                Math.abs(min.y() - max.y()) + 2);
     }
 
     static Rect of(int x, int y, int width, int height) {

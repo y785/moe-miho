@@ -2,6 +2,7 @@ package test;
 
 import benchmark.Ellinia;
 import moe.maple.miho.rect.MutableRect;
+import moe.maple.miho.rect.PackedRect;
 import moe.maple.miho.rect.Rect;
 import org.junit.jupiter.api.Test;
 
@@ -47,6 +48,41 @@ public class RectTests {
         for (var fh : Ellinia.FOOTHOLDS) {
             rect.union(fh);
             assert(rect.intersects(fh));
+        }
+    }
+
+    @Test
+    void packedCenter() {
+        var rect = PackedRect.of(0, 0, 3, 3);
+        assert (PackedRect.x(rect) == 0);
+        assert (PackedRect.y(rect) == 0);
+        assert (PackedRect.w(rect) == 3);
+        assert (PackedRect.h(rect) == 3);
+        rect = PackedRect.center(rect, 2, 2);
+        assert (PackedRect.x(rect) == 1);
+        assert (PackedRect.y(rect) == 1);
+    }
+
+    @Test
+    void packedUnion() {
+        var rect = PackedRect.of(0, 0, 3, 3);
+        assert (PackedRect.x(rect) == 0 && PackedRect.y(rect) == 0 && PackedRect.w(rect) == 3 && PackedRect.h(rect) == 3);
+
+        rect = PackedRect.unionR(rect, PackedRect.of(-1, -1, 3, 3));
+        assert (PackedRect.x(rect) == -1);
+        assert (PackedRect.y(rect) == -1);
+        assert (PackedRect.w(rect) == 4);
+        assert (PackedRect.h(rect) == 4);
+
+        rect = PackedRect.union(rect, 5, 5);
+        assert (PackedRect.w(rect) == 6);
+        assert (PackedRect.h(rect) == 6);
+
+        rect = PackedRect.union(rect, -152, -1416);
+
+        for (var fh : Ellinia.FOOTHOLDS) {
+            rect = PackedRect.union(rect, fh);
+            assert (PackedRect.intersects(rect, fh));
         }
     }
 

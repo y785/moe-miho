@@ -24,6 +24,7 @@ package moe.maple.miho.space.bst;
 
 import moe.maple.miho.foothold.Foothold;
 import moe.maple.miho.line.Line;
+import moe.maple.miho.point.PackedPoint;
 import moe.maple.miho.point.Point;
 import moe.maple.miho.rect.MutableRect;
 import moe.maple.miho.rect.Rect;
@@ -175,9 +176,10 @@ public class MoeBstNode extends AbstractBstNode<Foothold> {
     }
 
     void insertRaw(Foothold fh) {
-        var cen = bounds.cx();
-        var cls = Point.x(fh.closest(bounds.cj()));
-        if (cls <= cen) {
+        var cx = bounds.cx();
+        var cy = bounds.cy();
+        var pck = fh.closest(cx, cy);
+        if (PackedPoint.x(pck) <= cx) {
             if (left == null) left = new MoeBstNode(this);
             left.insert(fh);
         } else {

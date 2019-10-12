@@ -23,6 +23,7 @@
 package moe.maple.miho.line;
 
 import moe.maple.miho.point.MutablePoint;
+import moe.maple.miho.point.PackedPoint;
 import moe.maple.miho.point.Point;
 import moe.maple.miho.point.PointConsumer;
 import moe.maple.miho.rect.Rect;
@@ -37,10 +38,6 @@ public interface Line {
     int x2();
 
     int y2();
-
-    long j1();
-
-    long j2();
 
     Line copy();
 
@@ -66,22 +63,19 @@ public interface Line {
         return contains(point.x(), point.y());
     }
 
-    long closest(int x, int y);
+    /**
+     * @return {@link moe.maple.miho.point.PackedPoint}
+     */
+    int closest(int x, int y);
 
-    default long closest(Point point) {
-        return closest(point.x(), point.y());
+    default MutablePoint closest(MutablePoint point) {
+        var p = closest(point.x(), point.y());
+        return MutablePoint.of(PackedPoint.x(p), PackedPoint.y(p));
     }
 
-    default long closest(long joined) {
-        return closest(Point.x(joined), Point.y(joined));
-    }
-
-    default Point closestP(Point point) {
-        return Point.of(closest(point));
-    }
-
-    default MutablePoint closestP(MutablePoint point) {
-        return MutablePoint.of(closest(point));
+    default Point closest(Point point) {
+        var p = closest(point.x(), point.y());
+        return Point.of(PackedPoint.x(p), PackedPoint.y(p));
     }
 
     int compareX(int x);
@@ -90,20 +84,12 @@ public interface Line {
         return compareX(o.x());
     }
 
-    default int compareX(long joined) {
-        return compareX(Point.x(joined));
-    }
-
     int compareX(Line o);
 
     int compareY(int y);
 
     default int compareY(Point o) {
         return compareY(o.y());
-    }
-
-    default int compareY(long joined) {
-        return compareY(Point.y(joined));
     }
 
     int compareY(Line o);
@@ -198,58 +184,42 @@ public interface Line {
     }
 
     static Point max(Line... lines) {
-        return Point.of(maxj(lines));
+        var mx = 0;
+        var my = 0;
+        for (var ln : lines) {
+            mx = Math.max(Math.max(ln.x1(), mx), ln.x2());
+            my = Math.max(Math.max(ln.y1(), my), ln.y2());
+        }
+        return Point.of(mx, my);
     }
 
     static Point max(Collection<? extends Line> lines) {
-        return Point.of(maxj(lines));
-    }
-
-    static long maxj(Line... lines) {
         var mx = 0;
         var my = 0;
         for (var ln : lines) {
             mx = Math.max(Math.max(ln.x1(), mx), ln.x2());
             my = Math.max(Math.max(ln.y1(), my), ln.y2());
         }
-        return Point.joined(mx, my);
+        return Point.of(mx, my);
     }
 
-    static long maxj(Collection<? extends Line> lines) {
+    static Point min(Line... lines) {
         var mx = 0;
         var my = 0;
         for (var ln : lines) {
-            mx = Math.max(Math.max(ln.x1(), mx), ln.x2());
-            my = Math.max(Math.max(ln.y1(), my), ln.y2());
+            mx = Math.min(Math.min(ln.x1(), mx), ln.x2());
+            my = Math.min(Math.min(ln.y1(), my), ln.y2());
         }
-        return Point.joined(mx, my);
-    }
-
-    static Point min(Line[] lines) {
-        return Point.of(minj(lines));
+        return Point.of(mx, my);
     }
 
     static Point min(Collection<? extends Line> lines) {
-        return Point.of(minj(lines));
-    }
-
-    static long minj(Line... lines) {
         var mx = 0;
         var my = 0;
         for (var ln : lines) {
             mx = Math.min(Math.min(ln.x1(), mx), ln.x2());
             my = Math.min(Math.min(ln.y1(), my), ln.y2());
         }
-        return Point.joined(mx, my);
-    }
-
-    static long minj(Collection<? extends Line> lines) {
-        var mx = 0;
-        var my = 0;
-        for (var ln : lines) {
-            mx = Math.min(Math.min(ln.x1(), mx), ln.x2());
-            my = Math.min(Math.min(ln.y1(), my), ln.y2());
-        }
-        return Point.joined(mx, my);
+        return Point.of(mx, my);
     }
 }

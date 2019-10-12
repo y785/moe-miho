@@ -25,6 +25,7 @@ package moe.maple.miho.point;
 import moe.maple.miho.line.Line;
 import moe.maple.miho.rect.Rect;
 
+import java.security.InvalidParameterException;
 import java.util.Collection;
 
 public interface Point extends Comparable<Point> {
@@ -50,18 +51,10 @@ public interface Point extends Comparable<Point> {
         return distance(other.x(), other.y());
     }
 
-    default long joined() {
-        return Point.joined(x(), y());
-    }
-
     float length();
 
     static float angle(int fromX, int fromY, int x, int y) {
         return (float) Math.toDegrees(Math.atan2(y - fromY, x - fromX));
-    }
-
-    static float angle(long j1, long j2) {
-        return angle(Point.x(j1), Point.y(j2), Point.x(j2), Point.y(j2));
     }
 
     static float angle(Point from, Point to) {
@@ -79,10 +72,6 @@ public interface Point extends Comparable<Point> {
         return distance(a.x(), a.y(), b.x(), b.y());
     }
 
-    static int distance(long j1, long j2) {
-        return distance(Point.x(j1), Point.y(j1), Point.x(j2), Point.y(j2));
-    }
-
     static int dot(int x1, int y1, int x2, int y2) {
         return (x1 * x2) + (y1 * y2);
     }
@@ -91,28 +80,12 @@ public interface Point extends Comparable<Point> {
         return dot(a.x(), a.y(), b.x(), b.y());
     }
 
-    static int dot(long j1, long j2) {
-        return dot(Point.x(j1), Point.y(j1), Point.x(j2), Point.y(j2));
-    }
-
     static int squared(int x, int y) {
         return (x * x) + (y * y);
     }
 
     static int squared(Point point) {
         return squared(point.x(), point.y());
-    }
-
-    static long joined(int x, int y) {
-        return ((long) x << 32) | (y & 0xffffffffL);
-    }
-
-    static int x(long joined) {
-        return (int) (joined >> 32);
-    }
-
-    static int y(long joined) {
-        return (int) joined;
     }
 
     static Point of() {
@@ -127,18 +100,8 @@ public interface Point extends Comparable<Point> {
         return new ImmutablePoint(x, y);
     }
 
-    static Point of(long joined) {
-        return of(Point.x(joined), Point.y(joined));
-    }
-
     static Point ofCenter(Rect rect) {
         return of(rect.x() + rect.width() / 2, rect.y() + rect.height() / 2);
-    }
-
-    static long ofCenterJoined(Rect rect) {
-        var x = rect.x() + rect.width() / 2;
-        var y = rect.y() + rect.height() / 2;
-        return joined(x, y);
     }
 
     static Point ofTopLeft(Rect rect) {
@@ -158,58 +121,42 @@ public interface Point extends Comparable<Point> {
     }
 
     static Point max(Point... points) {
-        return Point.of(maxj(points));
+        if (points == null || points.length == 0)
+            throw new InvalidParameterException("Points aren't set");
+        var mx = points[0].x();
+        var my = points[0].y();
+        for (var p : points) {
+            mx = Math.max(p.x(), mx);
+            my = Math.max(p.y(), my);
+        }
+        return of(mx, my);
     }
 
     static Point max(Collection<Point> points) {
-        return Point.of(maxj(points));
+        if (points == null || points.size() == 0)
+            throw new InvalidParameterException("Points aren't set");
+        var mx = points.stream().mapToInt(Point::x).max().orElseThrow();
+        var my = points.stream().mapToInt(Point::y).max().orElseThrow();
+        return of(mx, my);
     }
 
-    static long maxj(Point... points) {
-        var mx = 0;
-        var my = 0;
+    static Point min(Point... points) {
+        if (points == null || points.length == 0)
+            throw new InvalidParameterException("Points aren't set");
+        var mx = points[0].x();
+        var my = points[0].y();
         for (var p : points) {
-            mx = Math.max(p.x(), mx);
-            my = Math.max(p.y(), my);
+            mx = Math.min(p.x(), mx);
+            my = Math.min(p.y(), my);
         }
-        return Point.joined(mx, my);
-    }
-
-    static long maxj(Collection<Point> points) {
-        var mx = 0;
-        var my = 0;
-        for (var p : points) {
-            mx = Math.max(p.x(), mx);
-            my = Math.max(p.y(), my);
-        }
-        return Point.joined(mx, my);
-    }
-
-    static Point min(Point[] points) {
-        return Point.of(minj(points));
+        return of(mx, my);
     }
 
     static Point min(Collection<Point> points) {
-        return Point.of(minj(points));
-    }
-
-    static long minj(Point... points) {
-        var mx = 0;
-        var my = 0;
-        for (var p : points) {
-            mx = Math.min(p.x(), mx);
-            my = Math.min(p.y(), my);
-        }
-        return Point.joined(mx, my);
-    }
-
-    static long minj(Collection<Point> points) {
-        var mx = 0;
-        var my = 0;
-        for (var p : points) {
-            mx = Math.min(p.x(), mx);
-            my = Math.min(p.y(), my);
-        }
-        return Point.joined(mx, my);
+        if (points == null || points.size() == 0)
+            throw new InvalidParameterException("Points aren't set");
+        var mx = points.stream().mapToInt(Point::x).min().orElseThrow();
+        var my = points.stream().mapToInt(Point::y).min().orElseThrow();
+        return of(mx, my);
     }
 }

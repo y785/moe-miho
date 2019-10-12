@@ -22,6 +22,7 @@
 
 package moe.maple.miho.line;
 
+import moe.maple.miho.point.PackedPoint;
 import moe.maple.miho.point.Point;
 import moe.maple.miho.point.PointConsumer;
 
@@ -68,16 +69,6 @@ public class ImmutableLine implements Line {
     }
 
     @Override
-    public long j1() {
-        return Point.joined(x1, y1);
-    }
-
-    @Override
-    public long j2() {
-        return Point.joined(x2, y2);
-    }
-
-    @Override
     public Point start() {
         return Point.of(x1, y1);
     }
@@ -105,7 +96,7 @@ public class ImmutableLine implements Line {
     }
 
     @Override
-    public long closest(int x, int y) {
+    public int closest(int x, int y) {
         var pdx = x - x1;
         var pdy = y - y1;
         var dx = x2 - x1;
@@ -115,12 +106,12 @@ public class ImmutableLine implements Line {
         var dot = (float) Point.dot(pdx, pdy, dx, dy);
         var dst = dot / sqr;
 
-        if (dst < 0) return Point.joined(x1, y1);
-        if (dst > 1) return Point.joined(x2, y2);
+        if (dst < 0) return PackedPoint.of(x1, y1);
+        if (dst > 1) return PackedPoint.of(x2, y2);
 
         var rx = (int) (x1 + dx * dst);
         var ry = (int) (y1 + dy * dst);
-        return Point.joined(rx, ry);
+        return PackedPoint.of(rx, ry);
     }
 
     @Override
@@ -160,9 +151,7 @@ public class ImmutableLine implements Line {
     @Override
     public int distance(int x, int y) {
         var clst = closest(x, y);
-        var dstx = (int) (clst >> 32);
-        var dsty = (int) clst;
-        return Point.distance(x, y, dstx, dsty);
+        return Point.distance(x, y, PackedPoint.x(clst), PackedPoint.y(clst));
     }
 
     @Override

@@ -66,11 +66,6 @@ public interface MutablePoint extends Point {
         divide(p.x(), p.y());
     }
 
-    default void joined(long p) {
-        x((int) (p >> 32));
-        y((int) p);
-    }
-
     static MutablePoint of() {
         return new MoePoint();
     }
@@ -81,9 +76,5 @@ public interface MutablePoint extends Point {
 
     static MutablePoint of(int x, int y) {
         return new MoePoint(x, y);
-    }
-
-    static MutablePoint of(long joined) {
-        return of(Point.x(joined), Point.y(joined));
     }
 }

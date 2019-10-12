@@ -22,11 +22,14 @@
 
 package moe.maple.miho.util;
 
-import moe.maple.miho.point.Point;
+import moe.maple.miho.point.PackedPoint;
 import moe.maple.miho.space.PhysicalSpace2D;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ *
+ */
 public class Spaces {
 
     private static int randomX(int x1, int x2) {
@@ -40,8 +43,11 @@ public class Spaces {
         var max = Math.max(y1, y2);
         return ThreadLocalRandom.current().nextInt(min, max);
     }
-    
-    public static long explosion(PhysicalSpace2D space, int fromX, int fromY, int iter, int spacing) {
+
+    /**
+     * @return {@link PackedPoint}
+     */
+    public static int explosion(PhysicalSpace2D space, int fromX, int fromY, int iter, int spacing) {
         var low = space.tree().low();
         var high = space.tree().high();
 
@@ -53,7 +59,9 @@ public class Spaces {
         if (x > high.x() || x < low.x()) x = randomX(x, fromX);
 
         var fh = space.getFootholdUnderneath(x, fromY, () -> space.getFootholdUnderneath(fromX, fromY));
-        if (fh == null) return Point.joined(fromX, fromY);
+        if (fh == null)
+            return PackedPoint.of(fromX, fromY);
+
         return fh.closest(x, fromY);
     }
 }

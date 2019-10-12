@@ -2,6 +2,8 @@ package benchmark;
 
 import benchmark.odin.MapleFootholdTree;
 import moe.maple.miho.point.Point;
+import moe.maple.miho.rect.MutableRect;
+import moe.maple.miho.rect.PackedRect;
 import moe.maple.miho.space.PhysicalSpace2D;
 import moe.maple.miho.space.array.MoeFootholdArray;
 import org.openjdk.jmh.annotations.*;
@@ -10,7 +12,7 @@ import org.openjdk.jmh.infra.Blackhole;
 import java.util.concurrent.TimeUnit;
 
 @BenchmarkMode(Mode.Throughput)
-@OutputTimeUnit(TimeUnit.SECONDS)
+@OutputTimeUnit(TimeUnit.NANOSECONDS)
 @State(Scope.Benchmark)
 public class PhysicalSpaceBenchmarks {
 
@@ -22,8 +24,14 @@ public class PhysicalSpaceBenchmarks {
 
     private Point[] points;
 
+    private long rect1;
+    private MutableRect rect2;
+
     @Setup
     public void setup() {
+        rect1 = PackedRect.of(0, 0, 300, 300);
+        rect2 = MutableRect.of(0, 0, 300, 300);
+
         array = new MoeFootholdArray(Ellinia.BAD_LOW, Ellinia.BAD_HIGH, Ellinia.FOOTHOLDS);
         bst = PhysicalSpace2D.ofBST(Ellinia.BAD_LOW, Ellinia.BAD_HIGH, Ellinia.FOOTHOLDS);
         quad = PhysicalSpace2D.ofQuad(Ellinia.BAD_LOW, Ellinia.BAD_HIGH, Ellinia.FOOTHOLDS);
@@ -52,17 +60,6 @@ public class PhysicalSpaceBenchmarks {
             bh.consume(array.getFootholdUnderneath(points[i]));
         }
     }
-//
-//        @Benchmark
-//        @Fork(2)
-//        @Threads(5)
-//        @Warmup(iterations = 2)
-//        @Measurement(iterations = 10)
-//        public void benchmarkMihoArrayMapped(Blackhole bh) {
-//            for (int i = 0; i < points.length; i++) {
-//                bh.consume(mapped.getFootholdUnderneath(points[i]));
-//            }
-//        }
 
     @Benchmark
     @Fork(2)
