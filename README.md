@@ -39,8 +39,3 @@ Quad              thrpt   20   748475.970 ± 21468.748  ops/s
 LiterallyAnArray  thrpt   20   167335.920 ± 59497.594  ops/s
 Odin              thrpt   20    22285.210 ±   768.409  ops/s
 ```
-
-### Plans Going forward
->Points
-
-Points in maplu are shorts, so we can store x/y as a single int. This will benefit us, as this means Lines and Rects can be stored as a single long. This will be useful for movement processing and packet reading.
