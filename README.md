@@ -40,7 +40,8 @@ LiterallyAnArray  thrpt   20   167335.920 ± 59497.594  ops/s
 Odin              thrpt   20    22285.210 ±   768.409  ops/s
 ```
 
-### Plans Going forward
->Points
-
-Points in maplu are shorts, so we can store x/y as a single int. This will benefit us, as this means Lines and Rects can be stored as a single long. This will be useful for movement processing and packet reading.
+### Images
+[Quad/BST Album for Ellinia](https://imgur.com/a/RB26Gw1)
+<p align="center">
+<img src="https://i.imgur.com/SF6JgQ0.png" tag="BST image of Ellinia" width="200" height="200">
+</p>
