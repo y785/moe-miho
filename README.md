@@ -39,3 +39,9 @@ Quad              thrpt   20   748475.970 ± 21468.748  ops/s
 LiterallyAnArray  thrpt   20   167335.920 ± 59497.594  ops/s
 Odin              thrpt   20    22285.210 ±   768.409  ops/s
 ```
+
+### Images
+[Quad/BST Album for Ellinia](https://imgur.com/a/RB26Gw1)
+<p align="center">
+<img src="https://i.imgur.com/SF6JgQ0.png" tag="BST image of Ellinia" width="200" height="200">
+</p>
