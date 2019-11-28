@@ -9,7 +9,7 @@ import moe.maple.miho.space.bst.MoeBstFootholdTree;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class PhysicalSpaceTests {
+public class SpaceElliniaTests {
 
     private static PhysicalSpace2D quadtree;
     private static PhysicalSpace2D bst;

@@ -1,12 +1,20 @@
 package test;
 
 import benchmark.Ellinia;
+import moe.maple.miho.point.PackedPoint;
 import moe.maple.miho.rect.MutableRect;
 import moe.maple.miho.rect.PackedRect;
 import moe.maple.miho.rect.Rect;
+import moe.maple.miho.util.Spaces;
 import org.junit.jupiter.api.Test;
 
 public class RectTests {
+
+    @Test
+    void spiral() {
+        var res = Spaces.spiral(null, Rect.of(0, 0, 100, 100), 0, 20, 10, 5, 20);
+        System.out.println("X: " + PackedPoint.x(res) + " Y: " + PackedPoint.y(res));
+    }
 
     @Test
     void bounds() {
