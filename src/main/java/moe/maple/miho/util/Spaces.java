@@ -23,7 +23,6 @@
 package moe.maple.miho.util;
 
 import moe.maple.miho.point.PackedPoint;
-import moe.maple.miho.rect.Rect;
 import moe.maple.miho.space.PhysicalSpace2D;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -66,28 +65,29 @@ public class Spaces {
         return fh.closest(x, fromY);
     }
 
-    public static int spiral(PhysicalSpace2D space, Rect rect, int angle, int arc, int depth, int iter, int prec) {
-        if (iter > prec) throw new IllegalArgumentException("Iteration can't be higher than: " + prec);
+    public static int spiral(PhysicalSpace2D space, double rotation, int distance, int iter, int prec) {
+        var rect = space.tree().bounds();
+        var cx = rect.cx();
+        var cy = rect.cy();
+        var dst = PackedPoint.distance(PackedPoint.of(cx, cy), PackedPoint.of(rect.x(), rect.y()));
 
-        var width = rect.width();
-        var height = rect.height();
-        var x = rect.cx();
-        var y = rect.cy();
+        final var thetaMax = prec * 2 * Math.PI;
+        final var awayStep = dst / thetaMax;
+        var curs = 0;
+        for (double theta = distance / awayStep; theta <= thetaMax; ) {
+            curs++;
+            double away = awayStep * theta;
+            double around = theta + rotation;
 
-        for (int i = 0; i < prec; i++) {
-            if (i == iter) return PackedPoint.of(x, y);
-            if (i % 2 == 0) {
-                y = y - depth;
-                width = width + 2 * depth;
-                height = height + 2 * depth;
-            } else {
-                x = x - 2 * depth;
-                y = y - depth;
-                width = width + 2 * depth;
-                height = height + 2 * depth;
-            }
+            double x = cx + Math.cos(around) * away;
+            double y = cy + Math.sin(around) * away;
+
+            if (curs == iter)
+                return PackedPoint.of((int) Math.round(x), (int) Math.round(y));
+
+            theta += distance / away;
         }
-        return PackedPoint.of(x, y);
+        return PackedPoint.of(cx, cy);
     }
 
 }
