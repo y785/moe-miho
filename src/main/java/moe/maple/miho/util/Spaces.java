@@ -37,13 +37,13 @@ public class Spaces {
     private static int randomX(int x1, int x2) {
         var min = Math.min(x1, x2);
         var max = Math.max(x1, x2);
-        return ThreadLocalRandom.current().nextInt(min, max);
+        return ThreadLocalRandom.current().nextInt(min, min == max ? max + 1 : max);
     }
 
     private static int randomY(int y1, int y2) {
         var min = Math.min(y1, y2);
         var max = Math.max(y1, y2);
-        return ThreadLocalRandom.current().nextInt(min, max);
+        return ThreadLocalRandom.current().nextInt(min, min == max ? max + 1 : max);
     }
 
     /**
