@@ -55,5 +55,4 @@ public interface PointTree<T> {
     void searchDown(Consumer<T> check, int x, int y, int radius);
 
     Stream<T> stream();
-
 }

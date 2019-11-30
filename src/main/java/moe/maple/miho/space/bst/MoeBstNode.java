@@ -33,8 +33,10 @@ import moe.maple.miho.tree.bst.BstNode;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 public class MoeBstNode extends AbstractBstNode<Foothold> {
 
@@ -192,4 +194,9 @@ public class MoeBstNode extends AbstractBstNode<Foothold> {
         return bounds;
     }
 
+    @Override
+    public Stream<Foothold> stream() {
+        var s1 = Stream.of(left, right).filter(Objects::nonNull).flatMap(MoeBstNode::stream);
+        return Stream.concat(s1, data.stream());
+    }
 }

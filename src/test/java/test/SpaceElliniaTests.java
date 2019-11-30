@@ -34,6 +34,13 @@ public class SpaceElliniaTests {
     }
 
     @Test
+    public void testClosest() {
+        var res = bst.getFootholdClosest(738, -3063 - 90, 90, 90, 90);
+        assert (res != null);
+        assert (res.id() == 725);
+    }
+
+    @Test
     public void testHorizontal() {
         fhCheck(quadtree, Point.of(428, -3530), 1175);
         fhCheck(quadtree, Point.of(428, -3607), 1175);

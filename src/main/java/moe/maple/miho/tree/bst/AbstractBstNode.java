@@ -61,25 +61,7 @@ public abstract class AbstractBstNode<T extends Foothold> implements BstNode<T> 
 
     @Override
     public Stream<BstNode<T>> streamNodes() {
-        var left = left();
-        var right = right();
-        if (left == null && right == null)
-            return Stream.of(this);
-        if (left == null)
-            return Stream.concat(Stream.of(this), Stream.of(right).flatMap(BstNode::streamNodes));
-        return Stream.concat(Stream.of(this), Stream.of(left, right)
-                .filter(Objects::nonNull)
-                .flatMap(BstNode::streamNodes));
-    }
-
-    @Override
-    public Stream<T> stream() {
-        var left = left();
-        var right = right();
-        if (left == null && right == null)
-            return data.stream();
-        if (left == null)
-            return Stream.concat(data.stream(), right.stream());
-        return Stream.concat(Stream.concat(data.stream(), left.stream()), right.stream());
+        var s1 = Stream.of(left(), right()).filter(Objects::nonNull);
+        return Stream.concat(s1.flatMap(BstNode::streamNodes), Stream.of(this));
     }
 }

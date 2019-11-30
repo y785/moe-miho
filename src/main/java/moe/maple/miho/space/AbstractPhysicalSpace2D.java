@@ -27,6 +27,7 @@ import moe.maple.miho.rect.Rect;
 import moe.maple.miho.tree.PointTree;
 import moe.maple.miho.tree.Result;
 
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -35,7 +36,6 @@ public abstract class AbstractPhysicalSpace2D implements PhysicalSpace2D {
     public final PointTree<Foothold> root;
 
     protected AbstractPhysicalSpace2D(PointTree<Foothold> root) {
-
         this.root = root;
     }
 
@@ -63,7 +63,9 @@ public abstract class AbstractPhysicalSpace2D implements PhysicalSpace2D {
 
     @Override
     public Foothold getFootholdClosest(int x, int y, int pcx, int pcy, int ptHitx) {
-        return null;
+        return root.stream()
+                .min(Comparator.comparingInt(f -> f.distance(x, y)))
+                .orElse(null);
     }
 
     @Override
