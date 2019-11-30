@@ -27,6 +27,7 @@ import moe.maple.miho.rect.Rect;
 
 import java.security.InvalidParameterException;
 import java.util.Collection;
+import java.util.concurrent.ThreadLocalRandom;
 
 public interface Point extends Comparable<Point> {
     int x();
@@ -78,6 +79,18 @@ public interface Point extends Comparable<Point> {
 
     static int dot(Point a, Point b) {
         return dot(a.x(), a.y(), b.x(), b.y());
+    }
+
+    static Point rand(int minX, int maxX, int minY, int maxY) {
+        var rand = ThreadLocalRandom.current();
+        var x = rand.nextInt(Math.min(minX, maxX), Math.max(minX, maxX));
+        var y = rand.nextInt(Math.min(minY, maxY), Math.max(minY, maxY));
+        return of(x, y);
+    }
+
+    static Point rand(Rect rect) {
+        return rand(rect.x() + 1, rect.x() + rect.width() - 1,
+                rect.y() + 1, rect.y() + rect.height() - 1);
     }
 
     static int squared(int x, int y) {

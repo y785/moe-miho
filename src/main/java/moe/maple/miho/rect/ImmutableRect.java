@@ -68,6 +68,13 @@ public class ImmutableRect implements Rect {
     }
 
     @Override
+    public int distance(int x, int y) {
+        var dx = Math.max(this.x - x, x - (this.x + this.w));
+        var dy = Math.max(this.y - y, y - (this.y + this.h));
+        return Math.round((float) Math.sqrt(dx * dx + dy * dy));
+    }
+
+    @Override
     public Rect copy() {
         return new ImmutableRect(x, y, w, h);
     }

@@ -56,13 +56,51 @@ public final class SpaceMuLungTests {
     }
 
     @Test
-    public void testHorizontal() {
+    public void testBSTClosest() {
+        var res = bst.getFootholdClosest(39, 51);
+        assert (res != null);
+        assert (res.id() == 3);
+        res = bst.getFootholdClosest(39, 51 - 100);
+        assert (res != null);
+        assert (res.id() == 3);
+        res = bst.getFootholdClosest(39, 51 - 100, 0, 100);
+        assert (res == null);
+
+        res = bst.getFootholdClosest(542, 51);
+        assert (res != null);
+        assert (res.id() == 9);
+
+        res = bst.getFootholdClosest(717, -81);
+        assert (res != null);
+        assert (res.id() == 19);
+    }
+
+    @Test
+    public void testQuadHorizontal() {
         fhCheck(quadtree, Point.of(39, 51), 3);
         fhCheck(quadtree, Point.of(542, 51), 9);
+    }
 
+    @Test
+    public void testBSTHorizontal() {
         fhCheck(bst, Point.of(39, 51), 3);
         fhCheck(bst, Point.of(542, 51), 9);
 
-        fhCheck(bst, Point.of(717, -81), 19); // Jumping up
+        fhCheck(bst, Point.of(717, -81), 19);
+    }
+
+    @Test
+    public void testBSTVertical() {
+        fhCheck(bst, Point.of(39, 51 - 100), 3);
+        fhCheck(bst, Point.of(542, 51 - 100), 9);
+        fhCheck(bst, Point.of(717, -81 - 100), 19);
+
+        fhCheck(bst, Point.of(39, 51 - 500), 3);
+        fhCheck(bst, Point.of(542, 51 - 500), 9);
+        fhCheck(bst, Point.of(717, -81 - 500), 19);
+
+        fhCheck(bst, Point.of(39, 51 - 1000), 3);
+        fhCheck(bst, Point.of(542, 51 - 1000), 9);
+        fhCheck(bst, Point.of(717, -81 - 1000), 19);
     }
 }

@@ -73,6 +73,13 @@ public class ArrayTree implements PointTree<Foothold> {
     }
 
     @Override
+    public void searchDistance(Consumer<Foothold> check, int x, int y, int minDistance, int maxDistance) {
+        for (Foothold datum : data) {
+            check.accept(datum);
+        }
+    }
+
+    @Override
     public Stream<Foothold> stream() {
         return Stream.of(data);
     }

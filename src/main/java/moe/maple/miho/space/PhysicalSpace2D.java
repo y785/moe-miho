@@ -56,11 +56,31 @@ public interface PhysicalSpace2D extends Iterable<Foothold> {
         return res;
     }
 
-    Foothold getFootholdClosest(int x, int y, int pcx, int pcy, int ptHitx);
+    Foothold getFootholdClosest(int x, int y, int minDistance, int maxDistance);
+
+    default Foothold getFootholdClosest(Point point, int minDistance, int maxDistance) {
+        return getFootholdClosest(point.x(), point.y(), minDistance, maxDistance);
+    }
+
+    default Foothold getFootholdClosest(int x, int y) {
+        return getFootholdClosest(x, y, 0, Integer.MAX_VALUE);
+    }
+
+    default Foothold getFootholdClosest(Point point) {
+        return getFootholdClosest(point.x(), point.y());
+    }
 
     Foothold getFootholdRandom(Rect rect);
 
+    default Foothold getFootholdRandom() {
+        return getFootholdRandom(tree().bounds());
+    }
+
     List<Foothold> getFootholdRandom(Rect rect, int max);
+
+    default List<Foothold> getFootholdRandom(int max) {
+        return getFootholdRandom(tree().bounds(), max);
+    }
 
     boolean isInBounds(int x, int y);
 

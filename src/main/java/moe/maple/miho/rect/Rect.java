@@ -48,6 +48,12 @@ public interface Rect {
 
     int height();
 
+    int distance(int x, int y);
+
+    default int distance(Point point) {
+        return distance(point.x(), point.y());
+    }
+
     Rect copy();
 
     float angle(int x, int y);

@@ -149,6 +149,28 @@ public abstract class AbstractQuad<T> implements QuadTree<T> {
     }
 
     @Override
+    public void searchDistance(Consumer<T> check, int x, int y, int minDistance, int maxDistance) {
+        values.forEach(check);
+        if (quadrants == null) return;
+
+        var nwdst = quadrants[QUAD_NW].bounds().distance(x, y);
+        if (nwdst >= minDistance && nwdst <= maxDistance)
+            quadrants[QUAD_NW].searchDistance(check, x, y, minDistance, maxDistance);
+
+        var nedst = quadrants[QUAD_NE].bounds().distance(x, y);
+        if (nedst >= minDistance && nedst <= maxDistance)
+            quadrants[QUAD_NE].searchDistance(check, x, y, minDistance, maxDistance);
+
+        var swdst = quadrants[QUAD_SW].bounds().distance(x, y);
+        if (swdst >= minDistance && swdst <= maxDistance)
+            quadrants[QUAD_SW].searchDistance(check, x, y, minDistance, maxDistance);
+
+        var sedst = quadrants[QUAD_SE].bounds().distance(x, y);
+        if (sedst >= minDistance && sedst <= maxDistance)
+            quadrants[QUAD_SE].searchDistance(check, x, y, minDistance, maxDistance);
+    }
+
+    @Override
     public Stream<QuadTree<T>> streamQuads() {
         if (quadrants == null) return Stream.of(this);
         return Stream.concat(Stream.of(this), Arrays.stream(quadrants).flatMap(AbstractQuad::streamQuads));

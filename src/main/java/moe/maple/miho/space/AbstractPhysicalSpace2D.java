@@ -23,11 +23,12 @@
 package moe.maple.miho.space;
 
 import moe.maple.miho.foothold.Foothold;
+import moe.maple.miho.point.Point;
 import moe.maple.miho.rect.Rect;
 import moe.maple.miho.tree.PointTree;
 import moe.maple.miho.tree.Result;
 
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -62,20 +63,44 @@ public abstract class AbstractPhysicalSpace2D implements PhysicalSpace2D {
     }
 
     @Override
-    public Foothold getFootholdClosest(int x, int y, int pcx, int pcy, int ptHitx) {
-        return root.stream()
-                .min(Comparator.comparingInt(f -> f.distance(x, y)))
-                .orElse(null);
+    public Foothold getFootholdClosest(int x, int y, int minDistance, int maxDistance) {
+        var result = Result.of((Foothold) null);
+        root.searchDistance(match -> {
+            var dst = match.distance(x, y);
+            if (!match.isWall() && (dst >= minDistance && dst <= maxDistance))
+                result.setIf(res -> res.distance(x, y) > dst, match);
+            // Replace current result if current distance > dst of match.
+        }, x, y, minDistance, maxDistance);
+        return result.get();
+//        return root.stream()
+//                .min(Comparator.comparingInt(f -> f.distance(x, y)))
+//                .orElse(null);
     }
 
     @Override
     public Foothold getFootholdRandom(Rect rect) {
-        return null;
+        var rand = Point.rand(rect);
+        var res = getFootholdClosest(rand);
+        while (res == null) {
+            rand = Point.rand(rect);
+            res = getFootholdClosest(rand);
+        }
+        return res;
     }
 
     @Override
     public List<Foothold> getFootholdRandom(Rect rect, int max) {
-        return null;
+        var ret = new ArrayList<Foothold>(max);
+        var cur = 0;
+        while (cur < max) {
+            var rand = Point.rand(rect);
+            var fh = getFootholdClosest(rand);
+            if (fh != null) {
+                cur++;
+                ret.add(fh);
+            }
+        }
+        return ret;
     }
 
     @Override

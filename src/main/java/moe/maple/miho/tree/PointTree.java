@@ -54,5 +54,7 @@ public interface PointTree<T> {
 
     void searchDown(Consumer<T> check, int x, int y, int radius);
 
+    void searchDistance(Consumer<T> check, int x, int y, int minDistance, int maxDistance);
+
     Stream<T> stream();
 }

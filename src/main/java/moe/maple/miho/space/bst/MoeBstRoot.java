@@ -47,8 +47,16 @@ public class MoeBstRoot extends MoeBstNode {
 
     @Override
     public void searchDown(Consumer<Foothold> check, int x, int y, int radius) {
-        if (left != null) left.searchDown(check, x, y, radius);
-        if (right != null) right.searchDown(check, x, y, radius);
+        if (left != null) {
+            var lb = left.getRootBounds();
+            if (lb.compareX(x) == 0 && lb.compareY(y) != 1)
+                left.searchDown(check, x, y, radius);
+        }
+        if (right != null) {
+            var rb = right.getRootBounds();
+            if (rb.compareX(x) == 0 && rb.compareY(y) != 1)
+                right.searchDown(check, x, y, radius);
+        }
     }
 
     @Override

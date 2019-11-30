@@ -116,9 +116,25 @@ public class MoeBstNode extends AbstractBstNode<Foothold> {
             if (rb.compareX(x) == 0 && rb.compareY(y) != 1)
                 right.searchDown(check, x, y, radius);
         }
-        if (bounds.compareX(x) == 0 && bounds.compareY(y) != 1) {
-            data.forEach(check);
+
+        data.forEach(check); // No need to check, already arrived here from parent check.
+    }
+
+    @Override
+    public void searchDistance(Consumer<Foothold> check, int x, int y, int minDistance, int maxDistance) {
+        if (left != null) {
+            var lb = left.getRootBounds();
+            var dst = lb.distance(x, y);
+            if (dst >= minDistance && dst <= maxDistance)
+                left.searchDistance(check, x, y, minDistance, maxDistance);
         }
+        if (right != null) {
+            var rb = right.getRootBounds();
+            var dst = rb.distance(x, y);
+            if (dst >= minDistance && dst <= maxDistance)
+                right.searchDistance(check, x, y, minDistance, maxDistance);
+        }
+        data.forEach(check);
     }
 
     private boolean isFull() {
