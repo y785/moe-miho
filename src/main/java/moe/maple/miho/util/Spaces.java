@@ -23,6 +23,7 @@
 package moe.maple.miho.util;
 
 import moe.maple.miho.point.PackedPoint;
+import moe.maple.miho.rect.Rect;
 import moe.maple.miho.space.PhysicalSpace2D;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -66,8 +67,7 @@ public class Spaces {
         return fh.closest(x, fromY);
     }
 
-    public static int spiral(PhysicalSpace2D space, double rotation, int distance, int prec, int iter) {
-        var rect = space.tree().bounds();
+    public static int spiral(Rect rect, double rotation, int distance, int prec, int iter) {
         var cx = rect.cx();
         var cy = rect.cy();
         var dst = PackedPoint.distance(PackedPoint.of(cx, cy), PackedPoint.of(rect.x(), rect.y()));
@@ -91,8 +91,7 @@ public class Spaces {
         return PackedPoint.of(cx, cy);
     }
 
-    public static void spiral(PhysicalSpace2D space, double rotation, int distance, int prec, IntConsumer iter) {
-        var rect = space.tree().bounds();
+    public static void spiral(Rect rect, double rotation, int distance, int prec, IntConsumer iter) {
         var cx = rect.cx();
         var cy = rect.cy();
         var dst = PackedPoint.distance(PackedPoint.of(cx, cy), PackedPoint.of(rect.x(), rect.y()));
