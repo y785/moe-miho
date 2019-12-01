@@ -63,6 +63,9 @@ public final class SpaceMuLungTests {
         res = bst.getFootholdClosest(39, 51 - 100);
         assert (res != null);
         assert (res.id() == 3);
+        res = bst.getFootholdClosest(39, 51 - 100, 0, 200);
+        assert (res != null);
+        assert (res.id() == 3);
         res = bst.getFootholdClosest(39, 51 - 100, 0, 100);
         assert (res == null);
 

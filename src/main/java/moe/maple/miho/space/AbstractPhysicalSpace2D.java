@@ -67,14 +67,11 @@ public abstract class AbstractPhysicalSpace2D implements PhysicalSpace2D {
         var result = Result.of((Foothold) null);
         root.searchDistance(match -> {
             var dst = match.distance(x, y);
-            if (!match.isWall() && (dst >= minDistance && dst <= maxDistance))
+            if (!match.isWall())
                 result.setIf(res -> res.distance(x, y) > dst, match);
             // Replace current result if current distance > dst of match.
         }, x, y, minDistance, maxDistance);
         return result.get();
-//        return root.stream()
-//                .min(Comparator.comparingInt(f -> f.distance(x, y)))
-//                .orElse(null);
     }
 
     @Override
