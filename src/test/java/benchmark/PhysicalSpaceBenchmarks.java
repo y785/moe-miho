@@ -1,6 +1,8 @@
 package benchmark;
 
+import benchmark.maps.Ellinia;
 import benchmark.odin.MapleFootholdTree;
+import moe.maple.miho.line.Line;
 import moe.maple.miho.point.Point;
 import moe.maple.miho.rect.MutableRect;
 import moe.maple.miho.rect.PackedRect;
@@ -32,11 +34,14 @@ public class PhysicalSpaceBenchmarks {
         rect1 = PackedRect.of(0, 0, 300, 300);
         rect2 = MutableRect.of(0, 0, 300, 300);
 
-        array = new MoeFootholdArray(Ellinia.BAD_LOW, Ellinia.BAD_HIGH, Ellinia.FOOTHOLDS);
-        bst = PhysicalSpace2D.ofBST(Ellinia.BAD_LOW, Ellinia.BAD_HIGH, Ellinia.FOOTHOLDS);
-        quad = PhysicalSpace2D.ofQuad(Ellinia.BAD_LOW, Ellinia.BAD_HIGH, Ellinia.FOOTHOLDS);
+        var low = Line.min(Ellinia.FOOTHOLDS);  // Bottom left
+        var high = Line.max(Ellinia.FOOTHOLDS); // Top right
 
-        odintree = new MapleFootholdTree(Ellinia.BAD_LOW, Ellinia.BAD_HIGH, Ellinia.FOOTHOLDS);
+        array = new MoeFootholdArray(low, high, Ellinia.FOOTHOLDS);
+        bst = PhysicalSpace2D.ofBST(low, high, Ellinia.FOOTHOLDS);
+        quad = PhysicalSpace2D.ofQuad(low, high, Ellinia.FOOTHOLDS);
+
+        odintree = new MapleFootholdTree(low, high, Ellinia.FOOTHOLDS);
         // 3 flat, 3 slope, 1 top left, 1 top right
         points = new Point[] { // Todo, stream the footholds to find a list of random points., bigger list.
                 Point.of(428, -3530),

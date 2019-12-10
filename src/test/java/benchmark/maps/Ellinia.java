@@ -1,11 +1,34 @@
-package benchmark;
+/*
+ * Copyright (C) 2019, y785, http://github.com/y785
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package benchmark.maps;
 
 import moe.maple.miho.foothold.Foothold;
-import moe.maple.miho.point.Point;
 
 public final class Ellinia {
-    public static final Point BAD_LOW = Point.of(-1224, -4185);
-    public static final Point BAD_HIGH = Point.of(1540, 364);
+
+    private Ellinia() {
+    }
+
     public static final Foothold[] FOOTHOLDS = new Foothold[] {
         Foothold.of(1, 1, 0, 81, 2, -953, 299, -900, 300),
         Foothold.of(2, 1, 0, 1, 3, -900, 300, -863, 293),

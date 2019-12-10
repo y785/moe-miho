@@ -22,7 +22,7 @@
 
 package test;
 
-import benchmark.MuLung;
+import benchmark.maps.MuLung;
 import benchmark.odin.MapleFootholdTree;
 import moe.maple.miho.line.Line;
 import moe.maple.miho.point.Point;

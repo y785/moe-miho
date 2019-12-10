@@ -1,6 +1,6 @@
 package test;
 
-import benchmark.Ellinia;
+import benchmark.maps.Ellinia;
 import moe.maple.miho.rect.MutableRect;
 import moe.maple.miho.rect.PackedRect;
 import moe.maple.miho.rect.Rect;

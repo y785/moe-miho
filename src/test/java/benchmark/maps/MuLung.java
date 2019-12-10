@@ -20,11 +20,14 @@
  * SOFTWARE.
  */
 
-package benchmark;
+package benchmark.maps;
 
 import moe.maple.miho.foothold.Foothold;
 
 public final class MuLung {
+
+    private MuLung() {
+    }
 
     public static final Foothold[] FOOTHOLDS = new Foothold[]{
             Foothold.of(2, 1, 0, 3, 5, 90, 51, 180, 51),

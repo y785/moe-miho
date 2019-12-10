@@ -1,6 +1,6 @@
 package test;
 
-import benchmark.Ellinia;
+import benchmark.maps.Ellinia;
 import benchmark.odin.MapleFootholdTree;
 import moe.maple.miho.line.Line;
 import moe.maple.miho.point.Point;
