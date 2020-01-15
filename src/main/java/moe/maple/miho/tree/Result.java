@@ -67,6 +67,11 @@ public class Result<E> {
     }
 
     @Override
+    public int hashCode() {
+        return value == null ? super.hashCode() : value.hashCode();
+    }
+
+    @Override
     public String toString() {
         if (value == null) return super.toString();
         return value.toString();

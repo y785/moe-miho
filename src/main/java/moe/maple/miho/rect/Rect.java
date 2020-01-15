@@ -64,6 +64,8 @@ public interface Rect {
 
     /**
      * Does the param x lie within the x bounds of this rect?
+     * @param x the {@code x} value to check
+     * @return see {@link Comparable#compareTo(Object)}
      */
     int compareX(int x);
 
@@ -73,6 +75,8 @@ public interface Rect {
 
     /**
      * Does the param y lie within the y bounds of this rect?
+     * @param y the {@code y} value to check
+     * @return see {@link Comparable#compareTo(Object)}
      */
     int compareY(int y);
 
@@ -102,9 +106,6 @@ public interface Rect {
         return intersects(line.x1(), line.y1(), line.x2(), line.y2());
     }
 
-    /**
-     * Line clipping: Cohen–Sutherland
-     */
     static boolean intersects(int x, int y, int w, int h, int x1, int y1, int x2, int y2) {
         var ymin = y;
         var ymax = ymin + h;

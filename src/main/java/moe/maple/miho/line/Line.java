@@ -64,6 +64,9 @@ public interface Line {
     }
 
     /**
+     * Finds the closest point from provided point
+     * @param x -
+     * @param y -
      * @return {@link moe.maple.miho.point.PackedPoint}
      */
     int closest(int x, int y);

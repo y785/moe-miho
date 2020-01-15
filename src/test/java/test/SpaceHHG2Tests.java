@@ -44,7 +44,6 @@ public class SpaceHHG2Tests {
     public static void fhCheckNotNull(PhysicalSpace2D space, Point point) {
         var fh = space.getFootholdUnderneath(point);
         assert (fh != null);
-        System.out.println(fh.toString());
     }
 
     @Test

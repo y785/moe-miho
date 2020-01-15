@@ -46,9 +46,6 @@ public class Spaces {
         return ThreadLocalRandom.current().nextInt(min, min == max ? max + 1 : max);
     }
 
-    /**
-     * @return {@link PackedPoint}
-     */
     public static int explosion(PhysicalSpace2D space, int fromX, int fromY, int iter, int spacing) {
         var low = space.tree().low();
         var high = space.tree().high();
