@@ -4,6 +4,7 @@ I recommend using the Binary Search Tree for footholds as it usually has better 
 
 ### Maven
 [![CircleCI](https://circleci.com/gh/y785/moe-miho.svg?style=svg)](https://circleci.com/gh/y785/moe-miho)
+[![Download](https://api.bintray.com/packages/moe/maple/miho/images/download.svg) ](https://bintray.com/moe/maple/miho/_latestVersion)
 ```
 <dependency>
   <groupId>moe.maple</groupId>
