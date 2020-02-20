@@ -2,6 +2,16 @@
 Basic 2d spacial data for maplusitoree. Also includes a cute QuadTree &amp; Binary Search Tree.
 I recommend using the Binary Search Tree for footholds as it usually has better results and is more memory efficient.
 
+### Maven
+[![CircleCI](https://circleci.com/gh/y785/moe-miho.svg?style=svg)](https://circleci.com/gh/y785/moe-miho)
+```
+<dependency>
+  <groupId>moe.maple</groupId>
+  <artifactId>miho</artifactId>
+  <version>1.2.0</version>
+</dependency>
+```
+
 ### Why?
 Odin's quadtree is quite bad. Really bad. In fact, just simply iterating an array shows higher benchmark scores. This has plagued every source for a long time now.
 ```
