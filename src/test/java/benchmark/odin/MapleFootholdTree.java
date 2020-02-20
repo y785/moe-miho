@@ -2,8 +2,6 @@ package benchmark.odin;
 
 import moe.maple.miho.foothold.Foothold;
 import moe.maple.miho.point.Point;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.LinkedList;
