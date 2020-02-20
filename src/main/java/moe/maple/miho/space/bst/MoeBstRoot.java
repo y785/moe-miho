@@ -26,11 +26,6 @@ import moe.maple.miho.foothold.Foothold;
 import moe.maple.miho.point.Point;
 import moe.maple.miho.rect.MutableRect;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.function.Consumer;
 
 public class MoeBstRoot extends MoeBstNode {
@@ -64,24 +59,4 @@ public class MoeBstRoot extends MoeBstNode {
         insertRaw(fh);
     }
 
-    @Override
-    public void draw(Path filePath) throws IOException {
-        var img = new BufferedImage(bounds.width() + 2, bounds.height() + 2, BufferedImage.TYPE_INT_ARGB);
-        var gfx = img.createGraphics();
-        var tx = Math.abs(bounds.x());
-        var ty = Math.abs(bounds.y());
-
-        gfx.setStroke(new BasicStroke(1));
-        streamNodes().map(n -> (MoeBstNode) n).forEach(node -> {
-            var rect = node.rect();
-            gfx.setColor(new Color(200, Math.max(100 - node.level() * 5, 0), Math.max(100 - node.level() * 5, 0), 255));
-            gfx.drawRect(rect.x() + tx, rect.y() + ty, rect.width(), rect.height());
-            gfx.setColor(Color.GREEN);
-            node.data().forEach(fh -> {
-                gfx.drawLine(fh.x1() + tx, fh.y1() + ty, fh.x2() + tx, fh.y2() + ty);
-            });
-        });
-
-        ImageIO.write(img, "PNG", filePath.toFile());
-    }
 }

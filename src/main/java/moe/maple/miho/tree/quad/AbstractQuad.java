@@ -26,8 +26,6 @@ import moe.maple.miho.point.Point;
 import moe.maple.miho.rect.MutableRect;
 import moe.maple.miho.rect.Rect;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -65,11 +63,6 @@ public abstract class AbstractQuad<T> implements QuadTree<T> {
     @Override
     public Rect bounds() {
         return MutableRect.of(low(), high());
-    }
-
-    @Override
-    public void draw(Path filePath) throws IOException {
-        throw new UnsupportedOperationException("Drawing a subquad isn't supported, yet");
     }
 
     @Override

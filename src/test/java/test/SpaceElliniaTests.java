@@ -20,6 +20,9 @@ public class SpaceElliniaTests {
         var low = Line.min(Ellinia.FOOTHOLDS);  // Bottom left
         var high = Line.max(Ellinia.FOOTHOLDS); // Top right
 
+        System.out.println(low.toString());
+        System.out.println(high.toString());
+
         quadtree = PhysicalSpace2D.ofQuad(Ellinia.FOOTHOLDS);
         mapletree = new MapleFootholdTree(low, high, Ellinia.FOOTHOLDS);
         mapletree.check(mapletree);

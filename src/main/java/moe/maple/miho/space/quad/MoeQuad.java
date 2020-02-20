@@ -26,11 +26,6 @@ import moe.maple.miho.foothold.Foothold;
 import moe.maple.miho.point.Point;
 import moe.maple.miho.tree.quad.AbstractQuad;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.HashSet;
 
 @Deprecated
@@ -112,27 +107,5 @@ public class MoeQuad extends AbstractQuad<Foothold> {
         quadrants[QUAD_NE] = new MoeQuad(depth + 1, Point.of(cx, ly), Point.of(hx, cy));
         quadrants[QUAD_SW] = new MoeQuad(depth + 1, Point.of(lx, cy), Point.of(cx, hy));
         quadrants[QUAD_SE] = new MoeQuad(depth + 1, center, high());
-    }
-
-    @Override
-    public void draw(Path filePath) throws IOException {
-        var bounds = bounds();
-        var img = new BufferedImage(bounds.width() + 2, bounds.height() + 2, BufferedImage.TYPE_INT_ARGB);
-        var gfx = img.createGraphics();
-        var tx = Math.abs(bounds.x());
-        var ty = Math.abs(bounds.y());
-
-        gfx.setStroke(new BasicStroke(1));
-        streamQuads().map(n -> (MoeQuad) n).forEach(node -> {
-            var rect = node.bounds();
-            gfx.setColor(new Color(200, Math.max(100 - node.depth() * 5, 0), Math.max(100 - node.depth() * 5, 0), 255));
-            gfx.drawRect(rect.x() + tx, rect.y() + ty, rect.width(), rect.height());
-            gfx.setColor(Color.GREEN);
-            node.values.forEach(fh -> {
-                gfx.drawLine(fh.x1() + tx, fh.y1() + ty, fh.x2() + tx, fh.y2() + ty);
-            });
-        });
-
-        ImageIO.write(img, "PNG", filePath.toFile());
     }
 }

@@ -24,8 +24,6 @@ package moe.maple.miho.tree.bst;
 
 import moe.maple.miho.foothold.Foothold;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -42,11 +40,6 @@ public abstract class AbstractBstNode<T extends Foothold> implements BstNode<T> 
     protected AbstractBstNode(int level) {
         this.level = level;
         this.data = new ArrayList<T>();
-    }
-
-    @Override
-    public void draw(Path filePath) throws IOException {
-        throw new UnsupportedOperationException("Drawing a subquad isn't supported, yet");
     }
 
     @Override

@@ -42,6 +42,9 @@ public final class SpaceMuLungTests {
         var low = Line.min(MuLung.FOOTHOLDS);  // Bottom left
         var high = Line.max(MuLung.FOOTHOLDS); // Top right
 
+        System.out.println(low.toString());
+        System.out.println(high.toString());
+
         quadtree = PhysicalSpace2D.ofQuad(MuLung.FOOTHOLDS);
         mapletree = new MapleFootholdTree(low, high, MuLung.FOOTHOLDS);
         mapletree.check(mapletree);
